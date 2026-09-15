@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0b0d" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Blez Odds" />
+  <title>Blez Odds Calculator</title>
+  <style>
+    :root{
+      --bg:#0b0b0d;
+      --panel:#151518;
+      --panel2:#1c1c20;
+      --text:#f4f4f5;
+      --muted:#a1a1aa;
+      --line:#2b2b31;
+      --gold:#d4af37;
+      --gold2:#f4d675;
+      --good:#4ade80;
+      --warn:#facc15;
+      --bad:#fb7185;
+      --blue:#38bdf8;
+      --shadow:0 14px 34px rgba(0,0,0,.28);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:linear-gradient(180deg,#0a0a0c 0%,#111116 100%);
+      color:var(--text);
+      font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      min-height:100vh;
+      padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+    }
+    .wrap{max-width:860px;margin:0 auto;padding:20px 16px 40px}
+    .hero{
+      display:flex;justify-content:space-between;gap:16px;align-items:flex-start;
+      margin-bottom:18px;
+    }
+    .brand{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold2);font-weight:700}
+    h1{margin:.25rem 0 0;font-size:clamp(28px,6vw,44px);line-height:1.05}
+    .sub{color:var(--muted);margin:8px 0 0;max-width:58ch;font-size:14px;line-height:1.45}
+    .badge{
+      border:1px solid #5d4e16;background:rgba(212,175,55,.08);color:var(--gold2);
+      border-radius:999px;padding:8px 11px;font-size:12px;white-space:nowrap
+    }
+    .card{background:rgba(21,21,24,.96);border:1px solid var(--line);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin-bottom:14px}
+    .section-title{font-weight:700;font-size:15px;margin-bottom:12px}
+    label{display:block;font-size:12px;color:var(--muted);margin-bottom:7px}
+    select,input{
+      width:100%;min-height:48px;border-radius:14px;border:1px solid var(--line);
+      background:var(--panel2);color:var(--text);font-size:16px;padding:0 12px;outline:none
+    }
+    select:focus,input:focus{border-color:#6f5d1f;box-shadow:0 0 0 3px rgba(212,175,55,.12)}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    @media (max-width:560px){.grid2,.grid3{grid-template-columns:1fr}.hero{flex-direction:column}.badge{align-self:flex-start}}
+    .metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media (min-width:700px){.metric-grid{grid-template-columns:repeat(4,1fr)}}
+    .metric{background:var(--panel2);border:1px solid var(--line);border-radius:16px;padding:13px}
+    .metric .k{font-size:12px;color:var(--muted);margin-bottom:7px}
+    .metric .v{font-size:22px;font-weight:750;letter-spacing:-.02em}
+    .metric .s{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.35}
+    .gold{color:var(--gold2)} .good{color:var(--good)} .bad{color:var(--bad)} .blue{color:var(--blue)}
+    .divider{height:1px;background:var(--line);margin:14px 0}
+    .progress{height:10px;border-radius:999px;background:#232329;overflow:hidden}
+    .progress > div{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));width:0%}
+    .row{display:flex;justify-content:space-between;gap:12px;align-items:center}
+    .row + .row{margin-top:8px}
+    .small{font-size:12px;color:var(--muted);line-height:1.45}
+    .callout{
+      border:1px solid #3a3317;background:rgba(212,175,55,.06);border-radius:16px;padding:13px;
+      font-size:13px;line-height:1.5;color:#e8e3cd
+    }
+    table{width:100%;border-collapse:collapse;font-size:13px}
+    th,td{padding:10px 6px;border-bottom:1px solid var(--line);text-align:right}
+    th:first-child,td:first-child{text-align:left}
+    th{color:var(--muted);font-weight:600}
+    .pill{
+      display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:6px 9px;
+      font-size:11px;border:1px solid var(--line);background:var(--panel2);color:var(--muted)
+    }
+    .compare{display:grid;gap:10px}
+    .compare-item{
+      display:grid;grid-template-columns:1.1fr .8fr .8fr .8fr;gap:8px;align-items:center;
+      padding:11px 0;border-bottom:1px solid var(--line);font-size:13px
+    }
+    .compare-item:last-child{border-bottom:0}
+    .compare-item strong{font-size:14px}
+    .right{text-align:right}
+    .footer{font-size:11px;color:var(--muted);line-height:1.5;padding:2px 2px 18px}
+    button{
+      appearance:none;border:1px solid #6b571e;background:linear-gradient(180deg,#ddbd4d,#b38d20);
+      color:#151515;font-weight:800;border-radius:14px;min-height:48px;padding:0 14px;font-size:14px
+    }
+    button.secondary{background:var(--panel2);color:var(--text);border-color:var(--line)}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <div class="brand">Mini & Me • Blez Analysis</div>
+      <h1>Blez Odds Calculator</h1>
+      <p class="sub">Compare the $10 Disney, $29 Basketball and $49 Basketball packs using Blez's published starting distributions. Packs left is shown as pool progress only. It does not artificially change the odds when the composition of remaining cards is unknown.</p>
+    </div>
+    <div class="badge">Mobile ready</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Your choice</div>
+    <div class="grid2">
+      <div>
+        <label for="pack">Pack</label>
+        <select id="pack">
+          <option value="d10">Disney $10</option>
+          <option value="b29">Basketball $29</option>
+          <option value="b49">Basketball $49</option>
+        </select>
+      </div>
+      <div>
+        <label for="left">Packs remaining</label>
+        <input id="left" type="number" min="1" step="1" value="27" />
+      </div>
+    </div>
+    <div class="grid2" style="margin-top:12px">
+      <div>
+        <label for="buy">Packs you plan to buy</label>
+        <input id="buy" type="number" min="1" step="1" value="1" />
+      </div>
+      <div>
+        <label for="budget">Optional spend limit</label>
+        <input id="budget" type="number" min="0" step="1" placeholder="e.g. 100" />
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Decision snapshot</div>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">Published EV</div><div class="v gold" id="ev">90.10%</div><div class="s" id="evs">Expected value / pack cost</div></div>
+      <div class="metric"><div class="k">Premium hit odds</div><div class="v blue" id="premium">14.90%</div><div class="s">Super Grail + Grail + Chase</div></div>
+      <div class="metric"><div class="k">Break even or better</div><div class="v" id="breakeven">14.90%</div><div class="s" id="bes">Based on published value tiers</div></div>
+      <div class="metric"><div class="k">Expected loss / pack</div><div class="v bad" id="loss">$0.99</div><div class="s">Cost minus published average value</div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="row">
+      <div>
+        <div style="font-weight:700" id="poolText">27 of 1,000 packs remain</div>
+        <div class="small" id="poolSub">97.3% of the original pool has been consumed.</div>
+      </div>
+      <span class="pill" id="life">Late pool</span>
+    </div>
+    <div class="progress" style="margin-top:10px"><div id="poolBar"></div></div>
+
+    <div class="callout" style="margin-top:14px" id="windowNote">
+      With only packs remaining known, the statistically defensible estimate is still the published starting distribution. Fewer packs left does not, by itself, create a better buying window.
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">If you buy <span id="qtyTitle">1 pack</span></div>
+    <div class="metric-grid">
+      <div class="metric"><div class="k">Total spend</div><div class="v" id="spend">$10.00</div></div>
+      <div class="metric"><div class="k">Expected card value</div><div class="v" id="expvalue">$9.01</div></div>
+      <div class="metric"><div class="k">Expected gain/loss</div><div class="v bad" id="exploss">−$0.99</div></div>
+      <div class="metric"><div class="k">≥1 premium hit</div><div class="v blue" id="multiPremium">14.90%</div></div>
+    </div>
+    <div class="grid3" style="margin-top:10px">
+      <div class="metric"><div class="k">≥1 Super Grail</div><div class="v" id="multiSG">0.90%</div></div>
+      <div class="metric"><div class="k">≥1 Grail or better</div><div class="v" id="multiG">4.10%</div></div>
+      <div class="metric"><div class="k">Budget fit</div><div class="v" id="budgetFit">—</div><div class="s" id="budgetSub">Enter a spend limit to compare.</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Published value distribution</div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead><tr><th>Value tier</th><th>Cards</th><th>Odds</th><th>Approx. 1 in</th></tr></thead>
+        <tbody id="valueRows"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Compare all three packs</div>
+    <div class="compare" id="compare"></div>
+    <div class="small" style="margin-top:10px">The $49 Basketball break-even figure is shown as a range because its $48–$123 tier crosses the $49 purchase price.</div>
+  </div>
+
+  <div class="card">
+    <div class="section-title">Best use of the tool</div>
+    <div class="small">
+      Use it to compare expected return, premium-hit frequency and how quickly multi-pack purchases increase your chance of at least one premium card. Treat “packs remaining” as context, not a hot-streak indicator. Without a live record of which specific premium or high-value cards have already been removed, there is no defensible way to claim that the final packs have better or worse odds than the published starting pool.
+    </div>
+  </div>
+
+  <div class="footer">
+    This is a probability and expected-value calculator based on the pack data shown in your screenshots. It does not predict the next card, and published comp values may differ from realised resale prices.
+  </div>
+</div>
+
+<script>
+const DATA = {
+  d10:{
+    name:"Disney $10", cost:10, pool:1000, avg:9.01, sg:9, g:32, c:108,
+    breakLow:.149, breakHigh:.149,
+    values:[
+      ["$3–$6",755,.7550],
+      ["$7–$9",96,.0960],
+      ["$10–$24",96,.0960],
+      ["$25–$39",12,.0120],
+      ["$40–$600",41,.0410]
+    ]
+  },
+  b29:{
+    name:"Basketball $29", cost:29, pool:565, avg:27.70, sg:7, g:19, c:91,
+    breakLow:.2070, breakHigh:.2070,
+    values:[
+      ["$10–$19",417,.7381],
+      ["$20–$28",31,.0549],
+      ["$29–$63",86,.1522],
+      ["$64–$99",5,.0088],
+      ["$100–$1,100",26,.0460]
+    ]
+  },
+  b49:{
+    name:"Basketball $49", cost:49, pool:260, avg:46.82, sg:5, g:5, c:37,
+    breakLow:.0462, breakHigh:.1808,
+    values:[
+      ["$20–$33",203,.7808],
+      ["$34–$47",10,.0385],
+      ["$48–$123",35,.1346],
+      ["$124–$199",2,.0077],
+      ["$200–$1,150",10,.0385]
+    ]
+  }
+};
+
+const $ = id => document.getElementById(id);
+const money = n => (n<0?"−":"") + "$" + Math.abs(n).toFixed(2);
+const pct = p => (p*100).toFixed(2)+"%";
+
+function noHitProb(N,K,n){
+  n=Math.min(n,N);
+  let p=1;
+  for(let i=0;i<n;i++){
+    p *= (N-K-i)/(N-i);
+  }
+  return Math.max(0,Math.min(1,p));
+}
+function atLeastOne(N,K,n){ return 1-noHitProb(N,K,n); }
+
+function render(){
+  const d=DATA[$("pack").value];
+  let left=Math.max(1,Math.min(d.pool,Math.floor(Number($("left").value)||1)));
+  $("left").value=left;
+  let buy=Math.max(1,Math.min(left,Math.floor(Number($("buy").value)||1)));
+  $("buy").value=buy;
+
+  const premiumCount=d.sg+d.g+d.c;
+  const premium=premiumCount/d.pool;
+  const grailPlus=(d.sg+d.g)/d.pool;
+  const ev=d.avg/d.cost;
+  const loss=d.cost-d.avg;
+
+  $("ev").textContent=pct(ev);
+  $("premium").textContent=pct(premium);
+  $("loss").textContent=money(loss);
+  $("breakeven").textContent = Math.abs(d.breakHigh-d.breakLow)<1e-9 ? pct(d.breakLow) : pct(d.breakLow)+"–"+pct(d.breakHigh);
+  $("bes").textContent = d.breakLow===d.breakHigh ? "Based on published value tiers" : "Range because one tier straddles the pack price";
+
+  const consumed=(d.pool-left)/d.pool;
+  $("poolText").textContent=`${left.toLocaleString()} of ${d.pool.toLocaleString()} packs remain`;
+  $("poolSub").textContent=`${(consumed*100).toFixed(1)}% of the original pool has been consumed.`;
+  $("poolBar").style.width=(consumed*100).toFixed(1)+"%";
+  let life="Early pool";
+  if(consumed>=.75) life="Late pool";
+  else if(consumed>=.40) life="Mid pool";
+  $("life").textContent=life;
+
+  $("qtyTitle").textContent=buy===1?"1 pack":buy+" packs";
+  const spend=d.cost*buy, exp=d.avg*buy;
+  $("spend").textContent=money(spend);
+  $("expvalue").textContent=money(exp);
+  $("exploss").textContent=money(exp-spend);
+  $("multiPremium").textContent=pct(atLeastOne(d.pool,premiumCount,buy));
+  $("multiSG").textContent=pct(atLeastOne(d.pool,d.sg,buy));
+  $("multiG").textContent=pct(atLeastOne(d.pool,d.sg+d.g,buy));
+
+  const budget=Number($("budget").value);
+  if(Number.isFinite(budget)&&budget>0){
+    const max=Math.floor(budget/d.cost);
+    $("budgetFit").textContent=max+" pack"+(max===1?"":"s");
+    $("budgetSub").textContent=max>0?`Maximum within $${budget.toFixed(0)}.`:"Budget is below one pack.";
+  }else{
+    $("budgetFit").textContent="—";
+    $("budgetSub").textContent="Enter a spend limit to compare.";
+  }
+
+  $("valueRows").innerHTML=d.values.map(v=>`
+    <tr>
+      <td>${v[0]}</td>
+      <td>${v[1]}</td>
+      <td>${pct(v[2])}</td>
+      <td>${(1/v[2]).toFixed(1)}</td>
+    </tr>`).join("");
+
+  $("compare").innerHTML=Object.values(DATA).map(x=>{
+    const prem=(x.sg+x.g+x.c)/x.pool;
+    const br = x.breakLow===x.breakHigh ? pct(x.breakLow) : pct(x.breakLow)+"–"+pct(x.breakHigh);
+    return `<div class="compare-item">
+      <strong>${x.name}</strong>
+      <div class="right"><span class="small">EV</span><br>${pct(x.avg/x.cost)}</div>
+      <div class="right"><span class="small">Premium</span><br>${pct(prem)}</div>
+      <div class="right"><span class="small">Break even+</span><br>${br}</div>
+    </div>`;
+  }).join("");
+}
+
+["pack","left","buy","budget"].forEach(id=>{
+  $(id).addEventListener("input",render);
+  $(id).addEventListener("change",render);
+});
+$("pack").addEventListener("change",()=>{
+  const key=$("pack").value;
+  if(key==="d10" && Number($("left").value)>1000) $("left").value=27;
+  render();
+});
+render();
+</script>
+</body>
+</html>
