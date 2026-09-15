@@ -105,7 +105,7 @@
       <h1>Blez Odds Calculator</h1>
       <p class="sub">Compare the $10 Disney, $29 Basketball and $49 Basketball packs using Blez's published starting distributions. Packs left is shown as pool progress only. It does not artificially change the odds when the composition of remaining cards is unknown.</p>
     </div>
-    <div class="badge">Mobile ready • v1.1</div>
+    <div class="badge">Mobile ready • v1.2</div>
   </div>
 
   <div class="card">
@@ -177,6 +177,43 @@
   </div>
 
   <div class="card">
+    <div class="section-title">Hot window analysis</div>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="k">Hot-pool potential</div>
+        <div class="v gold" id="hotPotential">—</div>
+        <div class="s">Chance the remaining pool is at least 25% richer in premium cards than launch.</div>
+      </div>
+      <div class="metric">
+        <div class="k">Cold-pool risk</div>
+        <div class="v bad" id="coldRisk">—</div>
+        <div class="s">Chance the remaining pool is at least 25% poorer in premium cards than launch.</div>
+      </div>
+      <div class="metric">
+        <div class="k">Expected premium cards left</div>
+        <div class="v blue" id="expectedPremiumLeft">—</div>
+        <div class="s">Best unbiased estimate when specific pulled cards are unknown.</div>
+      </div>
+      <div class="metric">
+        <div class="k">Likely remaining range</div>
+        <div class="v" id="premiumRange">—</div>
+        <div class="s">Approx. central 80% range for premium cards remaining.</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div>
+        <div style="font-weight:700" id="hotLabel">No statistical hot spot identified</div>
+        <div class="small" id="hotSummary">Packs remaining changes uncertainty, not the expected odds.</div>
+      </div>
+      <span class="pill" id="volatilityPill">Stable</span>
+    </div>
+    <div class="callout" style="margin-top:14px" id="hotExplain">
+      A late pool can be genuinely hotter or colder than launch because the remaining composition is unknown. Without seeing which cards were removed, both outcomes are possible. This section measures that uncertainty rather than pretending a hot streak can be predicted.
+    </div>
+  </div>
+
+  <div class="card">
     <div class="section-title">Published value distribution</div>
     <div style="overflow-x:auto">
       <table>
@@ -189,7 +226,8 @@
   <div class="card">
     <div class="section-title">Compare all three packs</div>
     <div class="compare" id="compare"></div>
-    <div class="small" style="margin-top:10px">The $49 Basketball break-even figure is shown as a range because its $48–$123 tier crosses the $49 purchase price.</div>
+    <div class="callout" style="margin-top:12px"><strong>Best baseline statistical choice:</strong> Basketball $29 currently combines a 95.52% published EV with the highest premium-hit frequency at about 20.71%. Basketball $49 has fractionally higher EV at 95.55%, while Disney has the lowest EV at 90.10%.</div>
+    <div class="small" style="margin-top:10px">The $49 Basketball break-even figure is shown as a range because its $48–$123 tier crosses the $49 purchase price. “Hot window” analysis measures how uncertain the unseen remaining pool becomes as it gets smaller; it does not infer that previous losses make a premium card due.</div>
   </div>
 
   <div class="card">
@@ -274,6 +312,50 @@ function normalizeField(id){
   if(id==="left") $("left").value=String(left);
   if(id==="buy") $("buy").value=String(buy);
 }
+
+const MAX_N=1000;
+const LOGF=[0];
+for(let i=1;i<=MAX_N;i++) LOGF[i]=LOGF[i-1]+Math.log(i);
+function logChoose(n,k){
+  if(k<0 || k>n) return -Infinity;
+  return LOGF[n]-LOGF[k]-LOGF[n-k];
+}
+function hypergeomDistribution(N,K,n){
+  const out=[];
+  const lo=Math.max(0,n-(N-K));
+  const hi=Math.min(n,K);
+  const denom=logChoose(N,n);
+  for(let k=lo;k<=hi;k++){
+    const lp=logChoose(K,k)+logChoose(N-K,n-k)-denom;
+    out.push([k,Math.exp(lp)]);
+  }
+  return out;
+}
+function quantileFromDist(dist,q){
+  let acc=0;
+  for(const [k,p] of dist){
+    acc+=p;
+    if(acc>=q) return k;
+  }
+  return dist.length ? dist[dist.length-1][0] : 0;
+}
+function remainingPoolStats(N,K,n){
+  const base=K/N;
+  const dist=hypergeomDistribution(N,K,n);
+  let hot=0,cold=0,mean=0;
+  for(const [k,p] of dist){
+    mean+=k*p;
+    const rate=k/n;
+    if(rate>=base*1.25) hot+=p;
+    if(rate<=base*0.75) cold+=p;
+  }
+  return {
+    hot, cold, mean,
+    q10:quantileFromDist(dist,.10),
+    q90:quantileFromDist(dist,.90)
+  };
+}
+
 function render(){
   const {d,left,buy}=normalizedInputs();
 
@@ -297,6 +379,35 @@ function render(){
   if(consumed>=.75) life="Late pool";
   else if(consumed>=.40) life="Mid pool";
   $("life").textContent=life;
+
+  const poolStats=remainingPoolStats(d.pool,premiumCount,left);
+  $("hotPotential").textContent=pct(poolStats.hot);
+  $("coldRisk").textContent=pct(poolStats.cold);
+  $("expectedPremiumLeft").textContent=poolStats.mean.toFixed(1);
+  $("premiumRange").textContent=poolStats.q10+"–"+poolStats.q90;
+
+  const remainingShare=left/d.pool;
+  let volatility="Stable";
+  let hotLabel="No statistical hot spot identified";
+  let hotSummary="The expected premium rate is still the published starting rate.";
+  if(remainingShare<=.10){
+    volatility="Very high variance";
+    hotLabel="Late-pool speculative window";
+    hotSummary="The pool is small enough that premium concentration may now differ sharply from launch, but it can be hotter or colder.";
+  }else if(remainingShare<=.25){
+    volatility="High variance";
+    hotLabel="Emerging volatility window";
+    hotSummary="The remaining pool has meaningful composition uncertainty, but there is still no directional edge without live pull data.";
+  }else if(remainingShare<=.50){
+    volatility="Moderate variance";
+    hotLabel="Mid-pool uncertainty";
+    hotSummary="Some concentration variance is developing, although the unbiased expected odds remain unchanged.";
+  }
+  $("hotLabel").textContent=hotLabel;
+  $("hotSummary").textContent=hotSummary;
+  $("volatilityPill").textContent=volatility;
+  $("hotExplain").innerHTML =
+    `At <strong>${left.toLocaleString()} packs remaining</strong>, there is an estimated <strong>${pct(poolStats.hot)}</strong> chance the unseen pool is at least 25% richer in premium cards than launch, but also a <strong>${pct(poolStats.cold)}</strong> chance it is at least 25% poorer. The expected premium count is <strong>${poolStats.mean.toFixed(1)}</strong>. This is a volatility window, not evidence that a hit is due.`;
 
   $("qtyTitle").textContent=buy===1?"1 pack":buy+" packs";
   const spend=d.cost*buy, exp=d.avg*buy;
