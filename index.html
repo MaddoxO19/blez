@@ -105,7 +105,7 @@
       <h1>Blez Odds Calculator</h1>
       <p class="sub">Compare the $10 Disney, $29 Basketball and $49 Basketball packs using Blez's published starting distributions. Packs left is shown as pool progress only. It does not artificially change the odds when the composition of remaining cards is unknown.</p>
     </div>
-    <div class="badge">Mobile ready</div>
+    <div class="badge">Mobile ready • v1.1</div>
   </div>
 
   <div class="card">
@@ -121,17 +121,17 @@
       </div>
       <div>
         <label for="left">Packs remaining</label>
-        <input id="left" type="number" min="1" step="1" value="27" />
+        <input id="left" type="text" inputmode="numeric" pattern="[0-9]*" value="27" />
       </div>
     </div>
     <div class="grid2" style="margin-top:12px">
       <div>
         <label for="buy">Packs you plan to buy</label>
-        <input id="buy" type="number" min="1" step="1" value="1" />
+        <input id="buy" type="text" inputmode="numeric" pattern="[0-9]*" value="1" />
       </div>
       <div>
         <label for="budget">Optional spend limit</label>
-        <input id="budget" type="number" min="0" step="1" placeholder="e.g. 100" />
+        <input id="budget" type="text" inputmode="decimal" placeholder="e.g. 100" />
       </div>
     </div>
   </div>
@@ -255,12 +255,27 @@ function noHitProb(N,K,n){
 }
 function atLeastOne(N,K,n){ return 1-noHitProb(N,K,n); }
 
-function render(){
+function getInt(id, fallback){
+  const raw=$(id).value.trim();
+  if(raw==="") return fallback;
+  const n=Number(raw);
+  return Number.isFinite(n) ? Math.floor(n) : fallback;
+}
+function normalizedInputs(){
   const d=DATA[$("pack").value];
-  let left=Math.max(1,Math.min(d.pool,Math.floor(Number($("left").value)||1)));
-  $("left").value=left;
-  let buy=Math.max(1,Math.min(left,Math.floor(Number($("buy").value)||1)));
-  $("buy").value=buy;
+  let left=getInt("left", d.pool);
+  left=Math.max(1,Math.min(d.pool,left));
+  let buy=getInt("buy",1);
+  buy=Math.max(1,Math.min(left,buy));
+  return {d,left,buy};
+}
+function normalizeField(id){
+  const {d,left,buy}=normalizedInputs();
+  if(id==="left") $("left").value=String(left);
+  if(id==="buy") $("buy").value=String(buy);
+}
+function render(){
+  const {d,left,buy}=normalizedInputs();
 
   const premiumCount=d.sg+d.g+d.c;
   const premium=premiumCount/d.pool;
@@ -322,13 +337,22 @@ function render(){
   }).join("");
 }
 
-["pack","left","buy","budget"].forEach(id=>{
+["left","buy","budget"].forEach(id=>{
   $(id).addEventListener("input",render);
-  $(id).addEventListener("change",render);
 });
+["left","buy"].forEach(id=>{
+  $(id).addEventListener("change",()=>{ normalizeField(id); render(); });
+  $(id).addEventListener("blur",()=>{ normalizeField(id); render(); });
+});
+$("budget").addEventListener("change",render);
+
 $("pack").addEventListener("change",()=>{
-  const key=$("pack").value;
-  if(key==="d10" && Number($("left").value)>1000) $("left").value=27;
+  const d=DATA[$("pack").value];
+  // Set a sensible maximum-compatible value only when switching products.
+  const currentLeft=getInt("left", d.pool);
+  if(currentLeft<1 || currentLeft>d.pool) $("left").value=String(d.pool);
+  const currentBuy=getInt("buy",1);
+  if(currentBuy<1) $("buy").value="1";
   render();
 });
 render();
