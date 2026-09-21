@@ -141,11 +141,11 @@
     </div>
     <div class="title">
       <h1>Reactor Watch</h1>
-      <p>ZBUS8914 nuclear practice bank — weeks 7–9</p>
     </div>
   </header>
 
   <div class="controls" id="filterChips"></div>
+  <div class="controls" id="lengthChips"></div>
 
   <div class="toolbar">
     <span>SCORE <b id="scoreText">0 / 0</b></span>
@@ -156,8 +156,6 @@
   <div class="qcounter" id="qCounter"></div>
 
   <div id="quizArea"></div>
-
-  <div class="footer-note">No calculations — definitions, mechanisms, and comparisons only.<br>Progress is stored locally on this device.</div>
 </div>
 
 <script>
@@ -271,6 +269,7 @@ const BANK = [
 ];
 
 let currentFilter = 'all';
+let sessionLength = 20;
 let queue = [];
 let idx = 0;
 let answered = false;
@@ -300,7 +299,11 @@ function buildQueue(){
   } else if(currentFilter !== 'all'){
     pool = pool.filter(q => q.m === currentFilter);
   }
-  queue = shuffle(pool);
+  pool = shuffle(pool);
+  if(!reviewMode && sessionLength !== 'all'){
+    pool = pool.slice(0, Math.min(sessionLength, pool.length));
+  }
+  queue = pool;
   idx = 0;
 }
 
@@ -317,14 +320,31 @@ function renderChips(){
     const chip = document.createElement('div');
     chip.className = 'chip' + (!reviewMode && currentFilter === w.id ? ' active' : '');
     chip.textContent = w.label;
-    chip.onclick = ()=>{ reviewMode=false; currentFilter = w.id; buildQueue(); renderChips(); renderQuestion(); };
+    chip.onclick = ()=>{ reviewMode=false; currentFilter = w.id; buildQueue(); renderChips(); renderLengthChips(); renderQuestion(); };
     el.appendChild(chip);
   });
   const shuffleChip = document.createElement('div');
   shuffleChip.className = 'chip';
-  shuffleChip.textContent = '\u27f3 Shuffle';
+  shuffleChip.textContent = '\u27f3 New shuffle';
   shuffleChip.onclick = ()=>{ buildQueue(); renderQuestion(); };
   el.appendChild(shuffleChip);
+}
+
+function renderLengthChips(){
+  const el = document.getElementById('lengthChips');
+  el.innerHTML = '';
+  if(reviewMode){ return; }
+  const opts = [
+    {id:20, label:'20-question session'},
+    {id:'all', label:'Full set'},
+  ];
+  opts.forEach(o=>{
+    const chip = document.createElement('div');
+    chip.className = 'chip' + (sessionLength === o.id ? ' active' : '');
+    chip.textContent = o.label;
+    chip.onclick = ()=>{ sessionLength = o.id; buildQueue(); renderLengthChips(); renderQuestion(); };
+    el.appendChild(chip);
+  });
 }
 
 function updateGauge(){
@@ -407,6 +427,7 @@ document.getElementById('reviewBtn').onclick = ()=>{
   currentFilter = 'all';
   buildQueue();
   renderChips();
+  renderLengthChips();
   renderQuestion();
 };
 document.getElementById('resetBtn').onclick = ()=>{
@@ -419,12 +440,14 @@ document.getElementById('resetBtn').onclick = ()=>{
     currentFilter = 'all';
     buildQueue();
     renderChips();
+    renderLengthChips();
     renderQuestion();
   }
 };
 
 buildQueue();
 renderChips();
+renderLengthChips();
 renderQuestion();
 </script>
 </body>
