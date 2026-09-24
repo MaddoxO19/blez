@@ -63,16 +63,44 @@
   .chip.active{ background:rgba(255,179,0,0.12); border-color:var(--amber-dim); color:var(--amber); }
   .chip:active{ transform:scale(0.96); }
   .toolbar{
-    display:flex; justify-content:space-between; align-items:center;
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
     background:var(--panel); border:1px solid var(--border); border-radius:12px;
     padding:10px 14px; margin-bottom:16px; font-family:var(--mono); font-size:12.5px; color:var(--text-dim);
   }
+  .toolbar .btnrow{ display:flex; gap:8px; }
   .toolbar b{ color:var(--text); font-weight:600; }
   .toolbar button{
     background:none; border:1px solid var(--border); color:var(--text-dim);
     padding:5px 10px; border-radius:8px; font-family:var(--mono); font-size:12px; cursor:pointer;
   }
   .toolbar button:active{ opacity:0.7; }
+  .overlay{
+    position:fixed; inset:0; background:rgba(5,7,10,0.72); display:flex; align-items:center; justify-content:center;
+    z-index:50; padding:20px;
+  }
+  .celebrate-card{
+    background:var(--panel); border:1px solid var(--amber-dim); border-radius:18px;
+    padding:34px 24px 24px; max-width:340px; width:100%; text-align:center; position:relative; overflow:hidden;
+  }
+  .celebrate-pct{ font-family:var(--mono); font-size:46px; font-weight:700; color:var(--amber); margin:4px 0 6px; }
+  .celebrate-title{ font-size:19px; font-weight:700; margin:0 0 4px; }
+  .celebrate-sub{ font-size:13.5px; color:var(--text-dim); margin:0 0 20px; }
+  .celebrate-badge{
+    display:inline-block; font-family:var(--mono); font-size:11px; color:var(--green);
+    border:1px solid var(--green); border-radius:20px; padding:3px 10px; margin-bottom:12px; letter-spacing:0.03em;
+  }
+  .celebrate-close{
+    width:100%; background:var(--amber); color:#1A1200; border:none; padding:12px; border-radius:11px;
+    font-weight:700; font-size:14.5px; cursor:pointer; font-family:var(--sans);
+  }
+  .confetti{
+    position:absolute; top:-14px; width:7px; height:13px; opacity:0.95; border-radius:2px;
+    animation: fall linear forwards;
+  }
+  @keyframes fall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(360px) rotate(360deg); opacity:0; }
+  }
   .qcounter{ font-family:var(--mono); font-size:12.5px; color:var(--text-dim); margin-bottom:8px; }
   .qmod{ color:var(--amber); }
   .card{
@@ -148,9 +176,11 @@
   <div class="controls" id="lengthChips"></div>
 
   <div class="toolbar">
-    <span>SCORE <b id="scoreText">0 / 0</b></span>
-    <button id="reviewBtn">Review missed</button>
-    <button id="resetBtn">Reset</button>
+    <span>SCORE <b id="scoreText">0 / 0</b> &middot; BEST <b id="bestText">--</b></span>
+    <div class="btnrow">
+      <button id="reviewBtn">Review missed</button>
+      <button id="resetBtn">Reset</button>
+    </div>
   </div>
 
   <div class="qcounter" id="qCounter"></div>
@@ -275,6 +305,8 @@ let idx = 0;
 let answered = false;
 let stats = load('rw_stats', {correct:0, total:0});
 let missed = load('rw_missed', []);
+let best = load('rw_best', null);
+let sessionCelebrated = false;
 let reviewMode = false;
 
 function load(key, fallback){
@@ -305,6 +337,7 @@ function buildQueue(){
   }
   queue = pool;
   idx = 0;
+  sessionCelebrated = false;
 }
 
 function renderChips(){
@@ -347,6 +380,34 @@ function renderLengthChips(){
   });
 }
 
+function updateBestText(){
+  document.getElementById('bestText').textContent = best ? best.pct + '%' : '--';
+}
+
+function showCelebration(pct, isNewBest){
+  const overlay = document.createElement('div');
+  overlay.className = 'overlay';
+  const colors = ['#FFB300','#35D0A0','#E7ECF2','#FF5A52'];
+  let confettiHtml = '';
+  for(let i=0;i<28;i++){
+    const left = (Math.random()*100).toFixed(1);
+    const delay = (Math.random()*0.35).toFixed(2);
+    const dur = (1.5 + Math.random()*1.1).toFixed(2);
+    const color = colors[Math.floor(Math.random()*colors.length)];
+    confettiHtml += '<div class="confetti" style="left:'+left+'%;background:'+color+';animation-delay:'+delay+'s;animation-duration:'+dur+'s;"></div>';
+  }
+  const title = pct === 100 ? 'Perfect run.' : 'Strong pass.';
+  const sub = pct === 100 ? 'Every question answered correctly this session.' : 'Above 85% for this session.';
+  overlay.innerHTML = '<div class="celebrate-card">' + confettiHtml +
+    (isNewBest ? '<div class="celebrate-badge">NEW BEST SCORE</div>' : '') +
+    '<div class="celebrate-pct">' + pct + '%</div>' +
+    '<div class="celebrate-title">' + title + '</div>' +
+    '<div class="celebrate-sub">' + sub + '</div>' +
+    '<button class="celebrate-close" id="celebrateClose">Continue</button></div>';
+  document.body.appendChild(overlay);
+  document.getElementById('celebrateClose').onclick = ()=> overlay.remove();
+}
+
 function updateGauge(){
   const pct = stats.total ? Math.round((stats.correct/stats.total)*100) : 0;
   const circ = 2*Math.PI*27;
@@ -367,7 +428,23 @@ function renderQuestion(){
   }
   if(idx >= queue.length){
     counter.textContent = '';
-    area.innerHTML = '<div class="card empty"><h2>Set complete</h2><p>Score this run: ' + queue.filter(q=>q._correct).length + ' / ' + queue.length + '<br>Shuffle or pick a new filter to keep going.</p></div>';
+    const correctCount = queue.filter(q=>q._correct).length;
+    const total = queue.length;
+    const pct = total ? Math.round((correctCount/total)*100) : 0;
+    area.innerHTML = '<div class="card empty"><h2>Set complete</h2><p>Score this run: ' + correctCount + ' / ' + total + ' (' + pct + '%)<br>Shuffle or pick a new filter to keep going.</p></div>';
+    if(!sessionCelebrated && total > 0){
+      sessionCelebrated = true;
+      let isNewBest = false;
+      if(!best || pct > best.pct){
+        best = {pct, correct:correctCount, total};
+        save('rw_best', best);
+        isNewBest = true;
+      }
+      updateBestText();
+      if(pct >= 85){
+        showCelebration(pct, isNewBest);
+      }
+    }
     return;
   }
   answered = false;
@@ -431,16 +508,19 @@ document.getElementById('reviewBtn').onclick = ()=>{
   renderQuestion();
 };
 document.getElementById('resetBtn').onclick = ()=>{
-  if(confirm('Reset all saved score and missed-question history on this device?')){
+  if(confirm('Reset all saved score, best-score, and missed-question history on this device?')){
     stats = {correct:0, total:0};
     missed = [];
+    best = null;
     save('rw_stats', stats);
     save('rw_missed', missed);
+    save('rw_best', best);
     reviewMode = false;
     currentFilter = 'all';
     buildQueue();
     renderChips();
     renderLengthChips();
+    updateBestText();
     renderQuestion();
   }
 };
@@ -448,6 +528,7 @@ document.getElementById('resetBtn').onclick = ()=>{
 buildQueue();
 renderChips();
 renderLengthChips();
+updateBestText();
 renderQuestion();
 </script>
 </body>
