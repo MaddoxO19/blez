@@ -186,6 +186,7 @@
   <div class="qcounter" id="qCounter"></div>
 
   <div id="quizArea"></div>
+
 </div>
 
 <script>
@@ -296,6 +297,34 @@ const BANK = [
 {m:3,q:"\u201cInherent\u201d safety, as distinct from passive or engineered safety, comes from:",o:["A back-up diesel generator","Intrinsic physics principles, such as a negative temperature coefficient of reactivity","A digital reactor protection system","Manual operator intervention"],a:1,e:"Inherent safety relies on the physics itself needing no equipment at all — the negative temperature coefficient is the standard example."},
 {m:3,q:"Modern reactor designs, including SMRs, generally favour:",o:["Replacing passive and inherent safety features with engineered (active) ones","Replacing engineered (active) safety features with passive and inherent ones where possible","Relying solely on engineered safety with no passive or inherent features","Eliminating all three categories of safety design"],a:1,e:"The trend is toward passive and inherent safety over active systems, on the logic that equipment which cannot fail to activate is inherently safer than equipment that must be triggered."},
 {m:3,q:"Regarding high-level waste from a future Australian nuclear submarine fleet, the current situation is that:",o:["Australia already has full HLW disposal capability at Kimba","The proposed Kimba facility is designed for LLW/ILW only, not HLW, leaving submarine spent fuel disposition unresolved","HLW disposal is not required for any nuclear submarine","The US has agreed to permanently dispose of all Australian submarine waste"],a:1,e:"The Kimba facility in South Australia is designed for low- and intermediate-level waste only, so where AUKUS submarine spent fuel (HLW) will ultimately go remains an open question."},
+{m:3,q:"A fast reactor differs from a thermal reactor in that it:",o:["Uses a moderator to slow neutrons to thermal energies","Sustains fission with fast neutrons and has no moderator","Cannot use any coolant","Only operates for short periods"],a:1,e:"\u201cFast\u201d describes the neutron energy spectrum sustaining the chain reaction, not how quickly the reactor operates or refuels."},
+{m:3,q:"Molten-coolant fast reactors (operating range about 100\u2013850\u00b0C) can run far hotter than a PWR primary circuit mainly because:",o:["Their fuel is less radioactive","The coolant stays liquid at high temperature near atmospheric pressure, so PWR-level pressure isn't needed","They use no fuel","They operate below 100\u00b0C"],a:1,e:"A PWR needs about 15 MPa to keep water liquid at 300\u00b0C; a molten coolant stays liquid at far higher temperature without that pressure."},
+{m:3,q:"Na-24, listed on the molten salt (fast reactor) board, is formed by:",o:["Direct fission of the fuel","Neutron capture on ordinary sodium (Na-23)","Corrosion of the reactor vessel","Decay of Co-60"],a:1,e:"Neutron activation of Na-23 produces radioactive Na-24, the same category of hazard as N-16, Ar-41 and Co-60 in a PWR."},
+{m:3,q:"A key hazard of a sodium-bearing molten coolant is that it:",o:["Is chemically inert","Reacts vigorously with water and can ignite in air, so both must be excluded","Cannot be contained by any material","Is only dangerous when cold"],a:1,e:"Exposure to water or air is one of the four points on the lecturer's board, and it drives strict design measures to keep both out of the coolant system."},
+{m:3,q:"Corrosion is a named challenge for molten-coolant fast reactors because:",o:["Hot molten coolants attack structural and piping materials over sustained operation","Molten coolants are too cold to affect materials","Corrosion only affects PWR fuel","Molten coolants only dissolve plastics"],a:0,e:"Sustained exposure to hot, aggressive molten coolant degrades structural materials, a major engineering constraint for this reactor class."},
+{m:2,q:"In the SI form of the Ci-m-rem rule, about 3 MBq of a Co-60-type gamma source produces an unshielded dose rate at 1 metre of roughly:",o:["1 nSv/h","1 \u00b5Sv/h","1 mSv/h","1 Sv/h"],a:1,e:"3 MBq gives about 1 \u00b5Sv/h at 1 m (equivalently 3 GBq gives about 1 mSv/h). The lecturer's review board lists a cut-off \u201c3 M...\u201d entry that most likely refers to this rule."},
+
+// ---------------- BOARD REVIEW — items the lecturer flagged for the quiz ----------------
+{m:4,q:"Fission is best described as:",o:["A heavy nucleus splitting after absorbing a neutron, releasing energy and further neutrons","Two light nuclei combining into a heavier one","The spontaneous emission of a gamma ray with no change to the nucleus","The slowing of neutrons by a moderator"],a:0,e:"Fission splits a heavy nucleus into fragments and releases about 200 MeV plus 2\u20133 neutrons, which can go on to cause further fissions."},
+{m:4,q:"Natural uranium is mostly U-238, and reactor fuel is made usable by:",o:["Raising the U-235 fraction through enrichment","Removing all U-238 completely","Cooling it below 0\u00b0C","Mixing it with sodium"],a:0,e:"Natural uranium is only 0.7% U-235; enrichment raises that fraction (typically 3\u20135% for power reactors) so the chain reaction can be sustained."},
+{m:4,q:"Of the uranium isotopes, which is the fissile one relied on in most reactors?",o:["U-234","U-235","U-238","U-240"],a:1,e:"U-235 fissions readily with thermal neutrons. U-238 is fertile, not fissile."},
+{m:4,q:"Decay heat is produced by:",o:["Continuing fission after the control rods are inserted","Radioactive decay of fission products in the fuel","Friction in the coolant pumps","Sunlight on the containment building"],a:1,e:"Even with the chain reaction stopped, the fission products keep decaying and releasing heat."},
+{m:4,q:"Immediately after shutdown, decay heat is approximately what fraction of full power?",o:["0.1%","6.5%","25%","50%"],a:1,e:"About 6.5% at shutdown, falling to roughly 1% after an hour and 0.1% after a year."},
+{m:4,q:"Why must cooling continue after a reactor is shut down?",o:["The chain reaction restarts automatically","Decay heat continues and can damage the fuel if it is not removed","The moderator would otherwise freeze","Control rods only work while coolant is flowing"],a:1,e:"Decay heat, not ongoing fission, is what threatens the fuel if cooling is lost after shutdown."},
+{m:4,q:"Delayed neutrons make up roughly what fraction of fission neutrons (\u03b2-effective for U-235)?",o:["0.0065%","0.65%","6.5%","65%"],a:1,e:"About 0.65%, a small fraction that has an outsized effect on controllability."},
+{m:4,q:"Delayed neutrons matter for reactor operation because they:",o:["Lengthen the effective neutron generation time so power changes slowly enough to control","Carry most of the energy of fission","Are the only neutrons that can cause fission","Remove the need for control rods"],a:0,e:"They stretch the generation time from under a millisecond to many seconds, giving control rods and operators time to respond."},
+{m:4,q:"The rule of thumb \u201c1 MWd gives 1 g of U-235\u201d relates:",o:["Thermal energy produced to the mass of U-235 consumed","Electrical output to the mass of coolant used","Dose to distance","Enrichment to reactor size"],a:0,e:"About 1 gram of U-235 is fissioned for each megawatt-day of thermal energy released."},
+{m:4,q:"The relationship dose rate \u00d7 time = dose means that, in a constant radiation field:",o:["Dose received grows in proportion to time spent in the field","Dose is independent of time","Dose falls as time increases","Dose depends only on the type of dosimeter worn"],a:0,e:"Total dose is dose rate multiplied by exposure time, so reducing time in a field reduces dose in direct proportion."},
+{m:4,q:"Halving the time spent in a constant radiation field will:",o:["Halve the dose received","Quarter the dose received","Leave the dose unchanged","Double the dose received"],a:0,e:"Dose is proportional to time at a fixed dose rate, so half the time gives half the dose."},
+{m:4,q:"Ionising radiation is radiation that:",o:["Carries enough energy to remove electrons from atoms it passes through","Is only produced by visible light sources","Cannot penetrate any material","Only exists inside a reactor core"],a:0,e:"Ionisation is what makes alpha, beta, gamma and neutron radiation biologically damaging."},
+{m:4,q:"The 1/R\u00b2 (inverse square) relationship means that doubling the distance from a point source:",o:["Reduces dose rate to a quarter","Halves the dose rate","Leaves dose rate unchanged","Reduces dose rate to an eighth"],a:0,e:"Dose rate falls with the square of distance, so distance is the most effective and cheapest way to cut exposure."},
+{m:4,q:"The inverse square law applies most directly to:",o:["An unshielded point source","A source fully enclosed in lead","Contamination on the skin","Internal dose from inhalation"],a:0,e:"It describes how radiation spreads out from a point source in open space; shielding and internal exposure follow different rules."},
+{m:4,q:"In the SI Ci-m-rem rule, roughly 3 MBq of a Co-60-type gamma source gives an unshielded dose rate at 1 metre of about:",o:["1 \u00b5Sv/h","1 mSv/h","1 Sv/h","1 nSv/h"],a:0,e:"3 MBq gives about 1 \u00b5Sv/h at 1 m (equivalently 3 GBq gives about 1 mSv/h). The final board entry is cut off in the photo, so this is the most likely reading."},
+{m:4,q:"On the molten salt board, \u201cfast Rx\u201d indicates a reactor that:",o:["Sustains fission with fast neutrons and has no moderator","Uses a moderator to reach thermal energies","Operates only briefly","Cannot use a liquid coolant"],a:0,e:"A fast reactor relies on the fast neutron spectrum directly rather than moderating neutrons."},
+{m:4,q:"Na-24 on the board is a radioactive product formed by:",o:["Neutron capture on ordinary sodium (Na-23)","Fission of uranium","Corrosion of steel","Decay of N-16"],a:0,e:"Neutron activation of Na-23 produces Na-24, the same kind of activation hazard as N-16, Ar-41 and Co-60."},
+{m:4,q:"The board's 100\u2013850\u00b0C range is significant mainly because it shows:",o:["The coolant can operate at high temperature without the high pressure a PWR needs","The reactor must be kept below 100\u00b0C","Fuel melts at 850\u00b0C","The coolant is solid throughout that range"],a:0,e:"A molten coolant stays liquid at temperatures far above a PWR's 300\u00b0C at near atmospheric pressure, improving thermal efficiency."},
+{m:4,q:"\u201cExposure to water/air\u201d is on the board as a hazard because the coolant:",o:["Can react violently with water and ignite in air, so both must be excluded","Becomes safer when exposed to air","Turns into fuel on contact with water","Is only affected by humidity above 90%"],a:0,e:"Sodium-type coolants react violently with water and can burn in air, which drives strict design measures to keep both out."},
+{m:4,q:"Corrosion is listed on the board because molten coolants:",o:["Attack structural and piping materials over sustained high-temperature operation","Are chemically inert to all metals","Only corrode plastics","Cool materials and prevent degradation"],a:0,e:"Material compatibility is a major engineering constraint for molten-coolant reactors."},
 ];
 
 let currentFilter = 'all';
@@ -346,6 +375,7 @@ function renderChips(){
     {id:1, label:'Wk 7'},
     {id:2, label:'Wk 8'},
     {id:3, label:'Wk 9'},
+    {id:4, label:'Board review'},
   ];
   const el = document.getElementById('filterChips');
   el.innerHTML = '';
@@ -449,7 +479,7 @@ function renderQuestion(){
   }
   answered = false;
   const item = queue[idx];
-  const modLabel = item.m === 1 ? 'WEEK 7' : item.m === 2 ? 'WEEK 8' : 'WEEK 9';
+  const modLabel = item.m === 1 ? 'WEEK 7' : item.m === 2 ? 'WEEK 8' : item.m === 3 ? 'WEEK 9' : 'BOARD REVIEW';
   counter.innerHTML = 'QUESTION ' + (idx+1) + ' OF ' + queue.length + ' &nbsp;\u00b7&nbsp; <span class="qmod">' + modLabel + '</span>';
 
   const letters = ['A','B','C','D'];
