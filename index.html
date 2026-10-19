@@ -15562,7 +15562,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.1 QA · UI Refinement";
+const BUILD_VERSION="Legacy Football v1.0.2 QA2 · First Day Onboarding";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -28837,7 +28837,6 @@ function homeExpandedBriefHtml(limit=10){
    '</div>'+
    '<div class="gmSnapshotCareerRow"><div><span>GOAL DIFFERENCE</span><b>'+Number(career.gf||0)+' scored · '+Number(career.ga||0)+' conceded</b></div><strong>'+((Number(career.gf)||0)-(Number(career.ga)||0)>=0?"+":"")+((Number(career.gf)||0)-(Number(career.ga)||0))+'</strong></div>'+
    '<div class="gmSnapshotCareerRow"><div><span>CAREER STATUS</span><b>'+career.status+'</b></div><strong>'+career.reputationLabel.toUpperCase()+'</strong></div>'+
-   '<button class="gmSnapshotProfileAction" type="button" data-gm-profile-open="1">OPEN FULL GM PROFILE</button>'+
   '</div>'+
  '</div>';
 }
@@ -30656,6 +30655,7 @@ function startSelectedCareer(){
   let userClub=G.clubs&&G.clubs[G.club];if(userClub&&userClub.gm)userClub.gm.name=managerDisplay;
   let userGMRec=G.staffHistory&&G.staffHistory.gms&&G.staffHistory.gms[G.userGM.id];if(userGMRec)userGMRec.name=managerDisplay;
   G.gameGuideSeen=false;
+  G.firstDayWelcomeSeen=false;
   G._careerSlot=activeSaveSlot;
   G._storageMode="slot";
   var saved=save();
@@ -30663,7 +30663,8 @@ function startSelectedCareer(){
   document.body.classList.remove("career-hub-active");
   page="home";
   render();
-  setTimeout(()=>showFirstDayWelcome(),100);
+  // Show only on genuinely new careers, after the initial Home render.
+  requestAnimationFrame(()=>{try{showFirstDayWelcome()}catch(e){console.error("First-day welcome failed",e)}});
   if(!saved)G.feed.unshift({t:"SAVE WARNING",m:"Safari is running the game but local saving is unavailable in this browsing mode."});
  }catch(e){
   $("#clubStep").classList.add("hidden");
@@ -31055,7 +31056,7 @@ function showFirstDayWelcome(){
  if(!overlay||!intro)return;
  const club=G.clubs&&G.clubs[G.club];
  const name=club&&(club.name||club.short||club.id)||'your club';
- const target=(typeof clubBoardTargetFor==='function')?clubBoardTargetFor(G.club):null;
+ let target=null;try{if(typeof clubBoardTargetFor==='function')target=clubBoardTargetFor(G.club)}catch(e){console.warn('Board target unavailable',e)}
  const boardLine=Number.isFinite(target)?'The board is aiming for a league finish around '+ordinalFirstDay(target)+' or better.':'The board expects you to set a clear direction for the season.';
  intro.replaceChildren();
  const add=(txt,cls)=>{const p=document.createElement('p');p.textContent=txt;if(cls)p.className=cls;intro.appendChild(p)};
