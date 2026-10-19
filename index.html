@@ -15569,7 +15569,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.2 QA3 · First Week at the Club";
+const BUILD_VERSION="Legacy Football v1.0.2 QA4 · First Week at the Club";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -19196,7 +19196,7 @@ function seedPlayerStyle(p,legacyTeamId=null){
 }
 function ensurePlayerStyleState(){if(G&&Array.isArray(G.players))G.players.forEach(p=>seedPlayerStyle(p,p.team>=0?p.team:null))}
 
-let G=null, selected=0, page="home", selectedCareerNation="AUS", selectedCareerFederation="FED_AS", selectedGMFullName="", selectedGMKnownAs="";
+var G=null; let selected=0, page="home", selectedCareerNation="AUS", selectedCareerFederation="FED_AS", selectedGMFullName="", selectedGMKnownAs="";
 let clubTab="overview",leagueTab="table",squadTab="team",statisticsTab="leaders";
 let marketPositionFilter="RECOMMENDED";
 const ACTIVE_SLOT_KEY="legacyFootballActiveSlot";
@@ -30400,7 +30400,7 @@ function render(){
   let viewFn=({home,squad,market,league,international,club})[page];
   if(typeof viewFn!=="function")throw new Error("Unknown page: "+page);
   $("#app").innerHTML=viewFn();
-  if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) firstWeekRenderHome();
+  if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) { try { firstWeekRenderHome(); } catch(onboardingError) { console.error("First-week guide unavailable",onboardingError); } }
   $("#continueDock").classList.add("hidden");
   document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
   renderContextNav();
@@ -30422,7 +30422,7 @@ function render(){
         let retryFn=({home,squad,market,league,international,club})[page];
         if(typeof retryFn==="function"){
           $("#app").innerHTML=retryFn();
-          if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) firstWeekRenderHome();
+          if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) { try { firstWeekRenderHome(); } catch(onboardingError) { console.error("First-week guide unavailable",onboardingError); } }
           $("#continueDock").classList.add("hidden");
           document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
           renderContextNav();
