@@ -15230,6 +15230,9 @@ header{
   .careerBackupStatus{font-size:5.5px}
 }
 </style>
+<style id="firstWeekQA6Styles">
+.firstWeekWelcomeCard{max-width:610px}.firstWeekWelcomeText{line-height:1.6;margin:16px 0;color:#e9edf1}.firstWeekWelcomeNote{margin:14px 0 22px}.firstWeekSkipButton{margin-top:10px;background:transparent!important;border-color:#304151!important;color:#c5d0da!important}.firstWeekPanel{margin:16px auto 20px;max-width:1100px;padding:18px;border:1px solid #92752b;border-radius:18px;background:#101922;color:#edf1f5;box-sizing:border-box}.firstWeekPanelTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.firstWeekPanelTop h2{font-size:21px;margin:5px 0 4px}.firstWeekPanelTop p{font-size:13px;color:#a5b3c0;margin:0 0 12px;line-height:1.5}.firstWeekCount{border:1px solid #344656;border-radius:18px;padding:6px 10px;white-space:nowrap;font-weight:700;color:#e0ba4a}.firstWeekTasks{display:grid;gap:8px}.firstWeekTask{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid #2c3d4d;background:#15212d;border-radius:12px;padding:12px;color:#edf1f5;cursor:pointer;min-height:64px}.firstWeekTask:focus-visible,.firstWeekFooter button:focus-visible{outline:2px solid #e0ba4a;outline-offset:2px}.firstWeekTask.done{opacity:.68}.firstWeekCheck{color:#e0ba4a;font-size:24px;min-width:24px}.firstWeekTaskCopy{display:grid;gap:4px;flex:1}.firstWeekTaskCopy b{font-size:14px}.firstWeekTaskCopy small{color:#a5b3c0;font-size:12px;line-height:1.4}.firstWeekChevron{font-size:26px;color:#e0ba4a}.firstWeekFooter{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:#a5b3c0;font-size:11px}.firstWeekFooter button{border:0;background:transparent;color:#e0ba4a;font-weight:700;padding:8px;cursor:pointer}@media(max-width:600px){.firstWeekPanel{margin:12px 12px 18px;padding:14px}.firstWeekPanelTop h2{font-size:19px}.firstWeekFooter{align-items:flex-start;flex-wrap:wrap}}
+</style>
 </head>
 <body>
 <section id="start" class="start">
@@ -15318,6 +15321,7 @@ header{
 <div class="navAction" data-page="league" role="button" tabindex="0"><b class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h12M6 12h12M6 19h12"/><circle cx="4" cy="5" r=".8"/><circle cx="4" cy="12" r=".8"/><circle cx="4" cy="19" r=".8"/></svg></b><span>LEAGUE</span></div>
 <div class="navAction" data-page="international" role="button" tabindex="0"><b class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></b><span>INTERNATIONAL</span></div>
 </nav>
+<div id="firstWeekMount"></div>
 <main id="app"></main>
 <nav id="contextNav" class="contextNav" aria-label="Section navigation"></nav>
 <div id="contextMore" class="contextMore hidden" aria-label="More navigation options"></div>
@@ -15326,14 +15330,13 @@ header{
 
 
 <div id="firstDayWelcome" class="gameGuideModal hidden" role="dialog" aria-modal="true" aria-labelledby="firstDayHeading">
- <div class="gameGuidePlacemat" style="max-width:610px">
+ <div class="gameGuidePlacemat firstWeekWelcomeCard">
   <div class="screenEyebrow">H³O INTERACTIVE · FIRST DAY AT THE CLUB</div>
-  <h2 id="firstDayHeading" class="gameGuideTitle">Welcome, Manager</h2>
-  <div id="firstDayMessage" style="line-height:1.65;margin:16px 0;color:#e9edf1"></div>
-  <div id="firstDaySteps" class="gameGuideItem" style="margin:12px 0"><b>Your first decisions</b><p>Review the squad, understand your club's position, check the league and prepare for your opening fixture. You can explore at your own pace.</p></div>
-  <label style="display:flex;align-items:center;gap:12px;margin:16px 0;cursor:pointer"><input id="firstDaySkip" type="checkbox" style="width:22px;height:22px;accent-color:#d9b44b"> Skip welcome and guidance (experienced managers)</label>
-  <button id="firstDayContinue" class="btn primary full">CONTINUE TO MANAGER GUIDE</button>
-  <button id="firstDayEnter" class="btn full" style="margin-top:10px">ENTER CLUB WITHOUT GUIDE</button>
+  <h2 id="firstDayHeading" class="gameGuideTitle">Welcome</h2>
+  <div id="firstDayMessage" class="firstWeekWelcomeText"></div>
+  <div class="gameGuideItem firstWeekWelcomeNote"><b>Your first week</b><p>We'll help you explore four essential management areas. Complete the steps in any order, or dismiss them whenever you're ready.</p></div>
+  <button id="firstDayContinue" class="btn primary full">START MY FIRST WEEK →</button>
+  <button id="firstDayEnter" class="btn full firstWeekSkipButton">SKIP INTRODUCTION AND ENTER CLUB</button>
  </div>
 </div>
 <div id="gameGuideModal" class="gameGuideModal hidden" role="dialog" aria-modal="true" aria-labelledby="gameGuideTitle">
@@ -15536,7 +15539,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.2 QA5 · Career Welcome";
+const BUILD_VERSION="Legacy Football v1.0.2 QA6 · First Week Guidance";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -30355,6 +30358,10 @@ function activateContextNavigation(key){
  renderSoon();
 }
 
+function updateFirstWeekMount(){
+ let mount=$("#firstWeekMount");if(!mount)return;
+ mount.innerHTML=(page==="home"&&(window.homeContextKey||"overview")==="overview")?firstWeekGuideHtml():"";
+}
 function render(){
  // Never allow a failed or interrupted render to leave the UI locked.
  renderQueued=false;
@@ -30368,6 +30375,7 @@ function render(){
   let viewFn=({home,squad,market,league,international,club})[page];
   if(typeof viewFn!=="function")throw new Error("Unknown page: "+page);
   $("#app").innerHTML=viewFn();
+  updateFirstWeekMount();
   $("#continueDock").classList.add("hidden");
   document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
   renderContextNav();
@@ -30389,6 +30397,7 @@ function render(){
         let retryFn=({home,squad,market,league,international,club})[page];
         if(typeof retryFn==="function"){
           $("#app").innerHTML=retryFn();
+          updateFirstWeekMount();
           $("#continueDock").classList.add("hidden");
           document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
           renderContextNav();
@@ -30404,6 +30413,7 @@ function render(){
   }
   if(G)G._renderRecoveryAttempted=false;
 
+  let guideMount=$("#firstWeekMount");if(guideMount)guideMount.innerHTML="";
   let app=$("#app");
   if(app)app.innerHTML='<div class="card runtimeErrorCard"><div class="title">Screen could not load</div><div class="sub">'+String(err&&err.message||err)+'</div></div>';
   return false;
@@ -30472,6 +30482,16 @@ function navigateTo(nextPage){
   return;
  }
 
+ let guide=firstWeekState();
+ if(guide&&guide.active){
+   let task=FIRST_WEEK_TASKS.find(t=>t.page===nextPage);
+   if(task&&!guide.completed[task.id]){
+     guide.completed[task.id]=true;
+     if(FIRST_WEEK_TASKS.every(t=>guide.completed[t.id])){guide.active=false;guide.finished=true;}
+     try{save()}catch(e){}
+     updateFirstWeekMount();
+   }
+ }
  // Home navigation should also return the viewport to the real beginning.
  if(nextPage==="home")requestAnimationFrame(()=>requestAnimationFrame(resetHomeWorkspaceScroll));
 }
@@ -30618,26 +30638,52 @@ function showCareerConfirmation(){
  begin.scrollIntoView&&begin.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
+const FIRST_WEEK_TASKS=[
+ {id:"squad",title:"Review your squad",detail:"Assess your players, positions and squad depth.",page:"squad",tip:"Check your squad's strengths and weaknesses before making changes."},
+ {id:"club",title:"Assess your club",detail:"Explore club resources, facilities and expectations.",page:"club",tip:"Your club's resources and long-term direction matter as much as results."},
+ {id:"market",title:"Explore the transfer market",detail:"Discover recruitment options and player contracts.",page:"market",tip:"You don't need to sign anyone yet. Start by understanding your options."},
+ {id:"league",title:"Prepare for the season",detail:"Review the league and upcoming competition.",page:"league",tip:"Use the league view to understand the opposition and season ahead."}
+];
+function firstWeekState(){
+ if(!G)return null;
+ if(!G.firstWeekOnboarding||typeof G.firstWeekOnboarding!=="object")return null;
+ let state=G.firstWeekOnboarding;
+ if(!state.completed||typeof state.completed!=="object")state.completed={};
+ return state;
+}
+function firstWeekGuideHtml(){
+ let st=firstWeekState();if(!st||!st.active||st.dismissed)return "";
+ let count=FIRST_WEEK_TASKS.filter(t=>st.completed[t.id]).length;
+ if(count===FIRST_WEEK_TASKS.length)return "";
+ return '<section class="firstWeekPanel" aria-label="First week at the club"><div class="firstWeekPanelTop"><div><div class="screenEyebrow">FIRST WEEK AT THE CLUB</div><h2>Your first priorities</h2><p>Explore your new club at your own pace. Visiting each area completes a step.</p></div><span class="firstWeekCount">'+count+' / '+FIRST_WEEK_TASKS.length+'</span></div><div class="firstWeekTasks">'+FIRST_WEEK_TASKS.map(t=>'<button type="button" class="firstWeekTask '+(st.completed[t.id]?'done':'')+'" data-first-week-task="'+t.id+'"><span class="firstWeekCheck">'+(st.completed[t.id]?'✓':'○')+'</span><span class="firstWeekTaskCopy"><b>'+t.title+'</b><small>'+t.detail+'</small></span><span class="firstWeekChevron">›</span></button>').join('')+'</div><div class="firstWeekFooter"><span>Optional · Progress saved with your career</span><button type="button" data-first-week-dismiss="1">Dismiss guide</button></div></section>';
+}
 function showFirstDayWelcome(){
  let box=$("#firstDayWelcome");if(!box||!G)return;
  let club=(G.clubs&&G.clubs[G.club])||{};
  let name=String(club.name||"your new club");
  let manager=String((G.userGM&&(G.userGM.knownAs||G.userGM.name))||"Manager");
- $("#firstDayMessage").textContent="Welcome to "+name+", "+manager+". The board is pleased to have you here. Your first task is to get to know the squad, review the club's resources and prepare for the season ahead. How you build this club's future is your decision.";
- $("#firstDaySkip").checked=false;
- $("#firstDayContinue").textContent="CONTINUE TO MANAGER GUIDE";
- box.classList.remove("hidden");
- document.body.classList.add("game-guide-open");
+ $("#firstDayMessage").textContent="Welcome to "+name+", "+manager+". The board is pleased to have you here. Before the season begins, take some time to understand the squad, your club's resources and the competition ahead. Your decisions will shape what comes next.";
+ box.classList.remove("hidden");document.body.classList.add("game-guide-open");
 }
-function finishFirstDayWelcome(withGuide){
+function finishFirstDayWelcome(startGuide){
  let box=$("#firstDayWelcome");if(box)box.classList.add("hidden");
  document.body.classList.remove("game-guide-open");
  if(!G)return;
  G.firstDayWelcomeSeen=true;
- if(!withGuide||$("#firstDaySkip").checked){G.gameGuideSeen=true;try{save()}catch(e){};return}
+ G.gameGuideSeen=true;
+ G.firstWeekOnboarding={active:!!startGuide,dismissed:!startGuide,completed:{}};
  try{save()}catch(e){}
- showGameGuide(true);
+ if(startGuide){window.homeContextKey="overview";navigateTo("home");}
 }
+function firstWeekNavigate(taskId){
+ let st=firstWeekState(),task=FIRST_WEEK_TASKS.find(t=>t.id===taskId);
+ if(!st||!st.active||!task)return;
+ navigateTo(task.page);
+ // Only award completion after the destination rendered successfully.
+ if(page!==task.page)return;
+ if(st.finished){window.homeContextKey="overview";navigateTo("home");}
+}
+function firstWeekDismiss(){let st=firstWeekState();if(!st)return;st.active=false;st.dismissed=true;try{save()}catch(e){};render();}
 function startSelectedCareer(){
  var status=$("#startStatus");
  try{
@@ -30650,6 +30696,7 @@ function startSelectedCareer(){
   let userClub=G.clubs&&G.clubs[G.club];if(userClub&&userClub.gm)userClub.gm.name=managerDisplay;
   let userGMRec=G.staffHistory&&G.staffHistory.gms&&G.staffHistory.gms[G.userGM.id];if(userGMRec)userGMRec.name=managerDisplay;
   G.gameGuideSeen=false;
+  G.firstWeekOnboarding=null;
   G._careerSlot=activeSaveSlot;
   G._storageMode="slot";
   var saved=save();
@@ -30667,6 +30714,10 @@ function startSelectedCareer(){
  }
 }
 document.addEventListener("click",function(e){
+ let weekTask=e.target.closest&&e.target.closest("[data-first-week-task]");
+ if(weekTask){e.preventDefault();firstWeekNavigate(weekTask.dataset.firstWeekTask);return}
+ let weekDismiss=e.target.closest&&e.target.closest("[data-first-week-dismiss]");
+ if(weekDismiss){e.preventDefault();firstWeekDismiss();return}
  let exitCareer=e.target.closest&&e.target.closest("[data-exit-career]");
  if(exitCareer){e.preventDefault();if(confirm("Exit this career and return to the main menu? Your current career will be saved."))exitToCareerHub();return}
  let gmOpen=e.target.closest&&e.target.closest("[data-gm-profile-open]");
@@ -30842,7 +30893,7 @@ $("#backToNationFromClub").addEventListener("click",function(){
 $("#beginCareerBtn").addEventListener("click",startSelectedCareer);
 $("#firstDayContinue").addEventListener("click",function(){finishFirstDayWelcome(true)});
 $("#firstDayEnter").addEventListener("click",function(){finishFirstDayWelcome(false)});
-$("#firstDaySkip").addEventListener("change",function(){ $("#firstDayContinue").textContent=this.checked?"SKIP AND ENTER CLUB":"CONTINUE TO MANAGER GUIDE"; });
+
 $("#continueBtn").addEventListener("click",advance);
 $("#newSeasonBtn").addEventListener("click",startSeasonTransition);
 $("#beginSeasonBtn").addEventListener("click",closeSeasonPreview);
