@@ -10044,6 +10044,13 @@ body::after{
 /* Commercial QA navigation consistency */
 .contextMore button:active .contextMoreIdentity{color:var(--gold);border-color:#806b28;background:rgba(217,181,74,.14)}
 .contextMore button:active .contextMoreCopy b{color:var(--gold)}
+
+/* QA3: visible, mobile-friendly first-week home experience */
+.firstWeekHome{margin:0 0 18px;padding:17px;border:1px solid rgba(211,171,67,.5);border-radius:18px;background:linear-gradient(145deg,#17212a,#0b1118);color:#edf1f5;box-shadow:0 12px 28px rgba(0,0,0,.25)}
+.firstWeekHeading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}.firstWeekEyebrow{font-size:10px;letter-spacing:.16em;color:#d5af4a;font-weight:800}.firstWeekHeading h2{font-size:clamp(19px,4vw,27px);line-height:1.2;margin:9px 0 7px;color:#fff}.firstWeekHeading p{font-size:13px;line-height:1.5;color:#b8c5d1;margin:0 0 12px;max-width:590px}
+.firstWeekDismiss{border:1px solid #45525e;background:#1d2832;color:#e6eaf0;padding:10px 12px;border-radius:10px;font-size:10px;font-weight:800;cursor:pointer}
+.firstWeekTasks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:12px}.firstWeekTask{display:flex;align-items:center;text-align:left;gap:9px;padding:13px 10px;border-radius:12px;border:1px solid #364756;background:#111b24;color:#f0f2f5;cursor:pointer;min-width:0}.firstWeekTask strong{font-size:17px;color:#d8b24b}.firstWeekTask span:nth-child(2){flex:1;min-width:0}.firstWeekTask b{display:block;font-size:11px;letter-spacing:.03em}.firstWeekTask small{display:block;font-size:11px;line-height:1.4;color:#a8b7c4;margin-top:5px}.firstWeekTask span:last-child{font-size:22px;color:#d8b24b}.firstWeekFooter{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.firstWeekFooter button{background:transparent;color:#d8b24b;border:1px solid #7c6734;border-radius:10px;padding:10px 13px;font-size:10px;font-weight:800;cursor:pointer}
+@media(max-width:650px){.firstWeekHome{padding:13px;margin-bottom:12px}.firstWeekTasks{grid-template-columns:1fr}.firstWeekTask{min-height:62px}.firstWeekHeading h2{font-size:20px}}
 </style>
 
 <style id="legacy-devtools-overrides">
@@ -15255,7 +15262,7 @@ header{
     <div class="launchTitle">LEGACY FOOTBALL</div>
     <div class="launchRule"></div>
     <div class="launchTagline">Build the Club. Shape the Legacy.</div>
-    <div class="launchMessage">A football world that expands with every season.</div>
+    <div class="launchMessage">Your club. Your decisions. Your legacy.</div>
   </div>
   <div class="startActions">
     <button id="newBtn" class="btn primary full">NEW CAREER</button>
@@ -15562,7 +15569,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.2 QA2 · First Day Onboarding";
+const BUILD_VERSION="Legacy Football v1.0.2 QA3 · First Week at the Club";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -30393,6 +30400,7 @@ function render(){
   let viewFn=({home,squad,market,league,international,club})[page];
   if(typeof viewFn!=="function")throw new Error("Unknown page: "+page);
   $("#app").innerHTML=viewFn();
+  if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) firstWeekRenderHome();
   $("#continueDock").classList.add("hidden");
   document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
   renderContextNav();
@@ -30414,6 +30422,7 @@ function render(){
         let retryFn=({home,squad,market,league,international,club})[page];
         if(typeof retryFn==="function"){
           $("#app").innerHTML=retryFn();
+          if(page==="home" && (!window.homeContextKey || window.homeContextKey==="overview")) firstWeekRenderHome();
           $("#continueDock").classList.add("hidden");
           document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
           renderContextNav();
@@ -30656,6 +30665,7 @@ function startSelectedCareer(){
   let userGMRec=G.staffHistory&&G.staffHistory.gms&&G.staffHistory.gms[G.userGM.id];if(userGMRec)userGMRec.name=managerDisplay;
   G.gameGuideSeen=false;
   G.firstDayWelcomeSeen=false;
+  G.firstWeekDismissed=false;
   G._careerSlot=activeSaveSlot;
   G._storageMode="slot";
   var saved=save();
@@ -30664,7 +30674,7 @@ function startSelectedCareer(){
   page="home";
   render();
   // Show only on genuinely new careers, after the initial Home render.
-  requestAnimationFrame(()=>{try{showFirstDayWelcome()}catch(e){console.error("First-day welcome failed",e)}});
+  try{showFirstDayWelcome()}catch(e){console.error("First-day welcome failed",e)}
   if(!saved)G.feed.unshift({t:"SAVE WARNING",m:"Safari is running the game but local saving is unavailable in this browsing mode."});
  }catch(e){
   $("#clubStep").classList.add("hidden");
@@ -31045,13 +31055,56 @@ document.addEventListener("click",function(e){
   },{passive:false,capture:true});
 })();
 
+
+/* QA3: First-week guidance. Rendered within Home so it remains visible even if
+   the welcome modal is blocked by a browser or host. No simulation changes. */
+function firstWeekRenderHome(){
+ const host=document.getElementById('app');
+ if(!host || !G || G.firstWeekDismissed)return;
+ const club=G.clubs&&G.clubs[G.club];
+ const clubName=club&&(club.name||club.short)||'your club';
+ const panel=document.createElement('section');
+ panel.className='firstWeekHome';
+ panel.id='firstWeekHome';
+ panel.setAttribute('aria-label','First week at the club');
+ const head=document.createElement('div');head.className='firstWeekHeading';
+ const title=document.createElement('div');
+ const eyebrow=document.createElement('div');eyebrow.className='firstWeekEyebrow';eyebrow.textContent='H³O INTERACTIVE · FIRST WEEK';
+ const h=document.createElement('h2');h.textContent='Welcome to '+clubName;
+ const intro=document.createElement('p');intro.textContent='Your first decisions start here. These optional steps will help you find your feet without limiting how you manage.';
+ title.append(eyebrow,h,intro);head.append(title);
+ const close=document.createElement('button');close.type='button';close.className='firstWeekDismiss';close.textContent='DISMISS GUIDE';close.setAttribute('data-first-week-dismiss','');head.append(close);panel.append(head);
+ const tasks=document.createElement('div');tasks.className='firstWeekTasks';
+ [['01','REVIEW YOUR SQUAD','Understand your players and selection options.','squad'],['02','EXPLORE THE CLUB','Review your club and its management options.','club'],['03','CHECK THE LEAGUE','See the competition and the season ahead.','league']].forEach(([number,label,desc,target])=>{
+  const btn=document.createElement('button');btn.type='button';btn.className='firstWeekTask';btn.dataset.firstWeekTarget=target;
+  const n=document.createElement('strong');n.textContent=number;
+  const content=document.createElement('span');const b=document.createElement('b');b.textContent=label;const small=document.createElement('small');small.textContent=desc;content.append(b,small);
+  const arrow=document.createElement('span');arrow.textContent='›';btn.append(n,content,arrow);tasks.append(btn);
+ });
+ panel.append(tasks);
+ const footer=document.createElement('div');footer.className='firstWeekFooter';
+ const guide=document.createElement('button');guide.type='button';guide.dataset.firstWeekGuide='';guide.textContent='OPEN GAME GUIDE';
+ const welcome=document.createElement('button');welcome.type='button';welcome.dataset.firstWeekWelcome='';welcome.textContent='BOARD WELCOME';
+ footer.append(guide,welcome);panel.append(footer);
+ host.prepend(panel);
+}
+document.addEventListener('click',function(e){
+ const target=e.target.closest&&e.target.closest('[data-first-week-target],[data-first-week-dismiss],[data-first-week-guide],[data-first-week-welcome]');
+ if(!target||!G)return;
+ if(target.hasAttribute('data-first-week-dismiss')){G.firstWeekDismissed=true;try{save()}catch(_){};document.getElementById('firstWeekHome')?.remove();return;}
+ if(target.hasAttribute('data-first-week-guide')){try{showGameGuide(false)}catch(err){console.error(err)}return;}
+ if(target.hasAttribute('data-first-week-welcome')){showFirstDayWelcome(true);return;}
+ const dest=target.dataset.firstWeekTarget;
+ if(dest){try{navigateTo(dest)}catch(err){console.error('First-week navigation',err)}}
+});
+
 /* v1.0.2: First Day at the Club. Only shown for new careers; no changes to simulation rules. */
 function firstDayClose(){
  const overlay=document.getElementById('firstDayOverlay');if(overlay)overlay.classList.add('hidden');
  if(typeof G!=='undefined'&&G){G.firstDayWelcomeSeen=true;try{save()}catch(e){}}
 }
-function showFirstDayWelcome(){
- if(typeof G==='undefined'||!G||G.firstDayWelcomeSeen)return;
+function showFirstDayWelcome(force=false){
+ if(typeof G==='undefined'||!G||(!force&&G.firstDayWelcomeSeen))return;
  const overlay=document.getElementById('firstDayOverlay'),intro=document.getElementById('firstDayIntro');
  if(!overlay||!intro)return;
  const club=G.clubs&&G.clubs[G.club];
