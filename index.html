@@ -15291,6 +15291,63 @@ header{
 .qa7HandbookInner .qa8Toggle{white-space:nowrap;font-size:12px;font-weight:700;background:#dcb74f;color:#10151b;border-color:#dcb74f}
 .qa7HandbookInner .qa8Toggle.isOff{background:#192735;color:#e0bd61;border-color:#80682f}
 @media(max-width:600px){.qa7Handbook{padding:8px}.qa7HandbookInner{max-height:calc(100dvh - 16px);border-radius:12px}.qa8HandbookHeader{padding:19px 17px 14px}.qa8HandbookHeader h2{font-size:21px}.qa8HandbookToolbar{padding:13px 17px 9px}.qa8HandbookTabs{padding:5px 17px 13px}.qa8HandbookContent{padding:0 17px 12px}.qa8HandbookFooter{padding:13px 17px}.qa8HandbookFooter span{max-width:210px;line-height:1.4}}
+</style><style id="qa9GuidanceUX">
+/* QA7.5: one clear dismiss action, consistent touch targets and calm hierarchy */
+.qa7Guide{border-radius:12px!important;border:1px solid #354454!important;border-left:3px solid #d8b44e!important;padding:15px 17px!important;gap:16px!important;box-shadow:none!important}
+.qa7GuideCopy .qa7Eyebrow{font-size:11px!important;letter-spacing:.065em!important;line-height:1.5!important}
+.qa7GuideCopy p{font-size:13px!important;line-height:1.55!important;color:#c9d2dc!important;margin-top:5px!important}
+.qa7GuideActions{gap:9px!important}
+.qa7Guide .qa7GuideActions button{min-height:40px!important;min-width:102px!important;padding:9px 15px!important;border-radius:9px!important;font-size:12px!important;font-weight:750!important;line-height:1.2!important}
+.qa7Guide .qa7ReadMore{background:#17222d!important;border:1px solid #4c5c6c!important;color:#e2e8ee!important}
+.qa7Guide .qa7GotIt{background:#dfb84e!important;border:1px solid #dfb84e!important;color:#111820!important}
+.qa7Handbook{padding:max(12px,env(safe-area-inset-top)) 12px max(12px,env(safe-area-inset-bottom));}
+.qa7HandbookInner{width:min(100%,790px)!important;max-height:min(88dvh,820px)!important;border-radius:18px!important;border-color:#6b5730!important;background:#0f1923!important}
+.qa8HandbookHeader{padding:24px 28px 20px!important;align-items:center!important}
+.qa8HandbookHeader h2{font-size:25px!important;line-height:1.18!important}
+.qa8HandbookHeader p{font-size:13px!important;line-height:1.5!important;margin-top:6px!important}
+.qa7HandbookInner .qa8Close{width:42px!important;height:42px!important;min-width:42px!important;border-radius:11px!important;flex-shrink:0!important}
+.qa8HandbookTabs{padding:15px 25px!important;gap:8px!important;border-bottom:1px solid #273744;scrollbar-width:none}
+.qa8HandbookTabs::-webkit-scrollbar{display:none}
+.qa7HandbookInner .qa8HandbookTabs button{padding:12px 15px!important;min-height:43px!important;border-radius:10px!important;font-size:12px!important;line-height:1.2!important}
+.qa7HandbookInner .qa8HandbookTabs button.active{background:#262725!important;border-color:#d8b44e!important;color:#e9c663!important;box-shadow:inset 0 -2px 0 #d8b44e}
+.qa8HandbookContent{padding:5px 28px 22px!important;min-height:0!important;scrollbar-width:thin}
+.qa8TopicSummary{border-top:0!important;padding:15px 0 12px!important;font-size:14px!important}
+.qa8Topic{padding:19px 0!important;gap:16px!important}
+.qa8TopicNumber{min-width:25px;font-size:12px!important}
+.qa7HandbookInner .qa8Topic h3{font-size:15px!important;margin-bottom:9px!important}
+.qa7HandbookInner .qa8Topic p{font-size:13px!important;line-height:1.65!important;margin-bottom:7px!important}
+.qa8TopicWhere{font-size:12px!important;margin-top:12px!important}
+.qa8HandbookFooter{padding:17px 28px!important;min-height:76px;gap:14px!important}
+.qa8HandbookFooter strong{font-size:13px!important}
+.qa8HandbookFooter span{font-size:12px!important}
+.qa9Switch{display:inline-flex!important;align-items:center!important;justify-content:center!important;gap:11px!important;background:transparent!important;border:0!important;color:#e8edf1!important;min-height:44px!important;padding:6px!important;cursor:pointer!important;white-space:nowrap}
+.qa9SwitchTrack{position:relative;display:block;width:52px;height:30px;border-radius:18px;background:#dcb74f;border:1px solid #dcb74f;transition:background .15s ease;flex-shrink:0}
+.qa9SwitchThumb{position:absolute;top:3px;left:25px;width:22px;height:22px;border-radius:50%;background:#101820;transition:left .15s ease,background .15s ease;box-shadow:0 1px 3px #0005}
+.qa9Switch.isOff .qa9SwitchTrack{background:#263542;border-color:#687987}
+.qa9Switch.isOff .qa9SwitchThumb{left:3px;background:#e2e8ee}
+.qa9SwitchLabel{min-width:22px;font-size:12px!important;font-weight:750;color:#e8edf1}
+.qa9Switch:focus-visible,.qa7GuideActions button:focus-visible,.qa8HandbookTabs button:focus-visible{outline:2px solid #e4bd52!important;outline-offset:3px}
+@media(max-width:650px){
+ .qa7Guide{padding:13px 14px!important;gap:11px!important;flex-direction:column!important;align-items:stretch!important}
+ .qa7GuideCopy p{font-size:13px!important}
+ .qa7GuideActions{width:100%!important;justify-content:flex-end!important;gap:9px!important}
+ .qa7Guide .qa7GuideActions button{flex:0 1 132px;min-width:0!important;min-height:42px!important;font-size:13px!important}
+ .qa7Handbook{padding:8px!important}
+ .qa7HandbookInner{max-height:calc(100dvh - 16px)!important;border-radius:15px!important}
+ .qa8HandbookHeader{padding:18px 17px 15px!important}
+ .qa8HandbookHeader h2{font-size:22px!important}
+ .qa8HandbookHeader p{font-size:12px!important}
+ .qa8HandbookTabs{padding:10px 12px!important;gap:6px!important}
+ .qa7HandbookInner .qa8HandbookTabs button{padding:10px 11px!important;min-height:44px!important;font-size:12px!important}
+ .qa8HandbookContent{padding:4px 17px 18px!important}
+ .qa8Topic{gap:12px!important;padding:17px 0!important}
+ .qa7HandbookInner .qa8Topic p{font-size:13px!important;line-height:1.6!important}
+ .qa8HandbookFooter{padding:14px 17px!important;min-height:76px}
+ .qa8HandbookFooter .qa9SettingCopy{min-width:0}
+ .qa8HandbookFooter .qa9SettingCopy span{font-size:11px!important;line-height:1.35!important}
+ .qa9Switch{gap:7px!important}
+}
+@media(prefers-reduced-motion:reduce){.qa9SwitchTrack,.qa9SwitchThumb{transition:none}}
 </style></head>
 <body>
 <section id="start" class="start">
@@ -30743,7 +30800,7 @@ function qa7Render(){
  }
  if(!entry||st.seen[key])return;
  const panel=document.createElement('section');panel.className='qa7Guide';panel.setAttribute('aria-label','Manager guidance');
- panel.innerHTML='<div class="qa7GuideCopy"><span class="qa7Eyebrow">QUICK GUIDE <span aria-hidden="true">·</span> '+qa7Esc(entry.title)+'</span><p>'+qa7Esc(entry.body)+'</p></div><div class="qa7GuideActions"><button type="button" class="qa7ReadMore" data-qa7-handbook="1">Read more</button><button type="button" class="qa7GotIt" data-qa7-close="'+qa7Esc(key)+'">Got it</button><button type="button" class="qa7Close" data-qa7-close="'+qa7Esc(key)+'" aria-label="Dismiss guidance" title="Dismiss guidance">×</button></div>';
+ panel.innerHTML='<div class="qa7GuideCopy"><span class="qa7Eyebrow">QUICK GUIDE <span aria-hidden="true">·</span> '+qa7Esc(entry.title)+'</span><p>'+qa7Esc(entry.body)+'</p></div><div class="qa7GuideActions"><button type="button" class="qa7ReadMore" data-qa7-handbook="1">Read more</button><button type="button" class="qa7GotIt" data-qa7-close="'+qa7Esc(key)+'">Got it</button></div>';
  // Inside the current screen, after its first heading where possible.
  const heading=app.querySelector('h1, .screenTitle, .pageTitle, h2');
  if(heading){const block=heading.closest('.screenHero, .pageHero, .screenHeader, .pageHeader');if(block&&block.parentElement===app)block.after(panel);else heading.after(panel);}
@@ -30798,7 +30855,7 @@ function qa8HandbookRender(){
  const category=QA8_HANDBOOK_CATEGORIES.find(c=>c.id===qa8HandbookCategory)||QA8_HANDBOOK_CATEGORIES[0];
  const topics=QA8_HANDBOOK_CONTENT[category.id]||[];
  content.innerHTML='<div class="qa8TopicSummary"><strong>'+category.label+'</strong><span>'+topics.length+' topics</span></div>'+topics.map((t,i)=>'<article class="qa8Topic"><span class="qa8TopicNumber">'+String(i+1).padStart(2,'0')+'</span><div><h3>'+qa7Esc(t.title)+'</h3><p>'+qa7Esc(t.what)+'</p><p class="qa8TopicWhy">'+qa7Esc(t.why)+'</p><div class="qa8TopicWhere"><span>FIND IT</span> '+qa7Esc(t.where)+'</div></div></article>').join('');
- footer.innerHTML='<div><strong>Automatic guidance</strong><span>Show short tips as you explore the game.</span></div><button type="button" class="qa8Toggle '+(qa7State()?.disabled?'isOff':'')+'" data-qa7-toggle="1" aria-pressed="'+(!qa7State()?.disabled)+'">'+(qa7State()?.disabled?'Off · Enable':'On · Disable')+'</button>';
+ footer.innerHTML='<div class="qa9SettingCopy"><strong>Automatic guidance</strong><span>Show tips when you first visit a feature.</span></div><button type="button" role="switch" class="qa9Switch '+(qa7State()?.disabled?'isOff':'')+'" data-qa7-toggle="1" aria-label="Automatic guidance" aria-checked="'+(!qa7State()?.disabled)+'"><span class="qa9SwitchTrack"><span class="qa9SwitchThumb"></span></span><span class="qa9SwitchLabel">'+(qa7State()?.disabled?'Off':'On')+'</span></button>';
 }
 function qa7HandbookOpen(){
  const modal=document.getElementById('qa7Handbook');if(!modal)return;
@@ -30808,6 +30865,7 @@ document.addEventListener('click',function(e){
  const b=e.target.closest&&e.target.closest('[data-qa8-category]');if(!b)return;
  qa8HandbookCategory=b.getAttribute('data-qa8-category');
  qa8HandbookRender();
+ const scroller=document.getElementById('qa7HandbookContent');if(scroller)scroller.scrollTop=0;
 });
 document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('qa7Handbook')?.classList.contains('hidden'))qa7HandbookClose();});
 function qa7HandbookClose(){let m=document.getElementById('qa7Handbook');if(m)m.classList.add('hidden');}
