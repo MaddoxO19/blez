@@ -15382,7 +15382,20 @@ header{
  .qa8HandbookTabs{padding:12px 18px!important;gap:6px!important}
  .qa7HandbookInner .qa8HandbookTabs button{font-size:10.5px!important}
 }
-</style></head>
+</style><style id="qa77SaveManagementPolish">
+/* Keep launch screen focused on starting or loading a career. */
+.slotBackupTools{max-width:560px;margin:22px auto 0;width:100%}
+.slotBackupTools.hidden{display:none!important}
+.slotBackupTools .careerBackupPanel{width:100%;max-width:none;margin:0;padding:16px 18px;border-radius:14px;background:rgba(255,255,255,.018)}
+.slotBackupTools .careerBackupHead b{font-size:13px;line-height:1.4}
+.slotBackupTools .careerBackupHead span{font-size:10px}
+.slotBackupTools .careerBackupStatus{font-size:9px}
+.slotBackupTools .careerBackupActions{gap:10px;margin-top:14px}
+.slotBackupTools .careerBackupBtn{min-height:44px;font-size:12px}
+.slotBackupTools .careerBackupNote{font-size:11px;line-height:1.5;margin-top:10px}
+@media(max-width:480px){.slotBackupTools{margin-top:16px}.slotBackupTools .careerBackupPanel{padding:14px}.slotBackupTools .careerBackupActions{grid-template-columns:1fr 1fr}.slotBackupTools .careerBackupHead b{font-size:12px}.slotBackupTools .careerBackupStatus{font-size:8px}}
+</style>
+</head>
 <body>
 <section id="start" class="start">
 <div id="launchStep" class="careerStep">
@@ -15396,7 +15409,16 @@ header{
   <div class="startActions">
     <button id="newBtn" class="btn primary full">NEW CAREER</button>
     <button id="loadBtn" class="btn full">LOAD CAREER</button>
-    <div class="careerBackupPanel">
+    <div id="startStatus" class="startStatus">Checking career slots…</div>
+    <div id="startBuild" class="launchBuild"></div>
+  </div>
+</div>
+<div id="saveSlotStep" class="careerStep hidden">
+  <div class="careerTop"><button id="backToLaunchFromSlots" class="backBtn">‹ BACK</button><div id="saveSlotTitle" class="label">CAREER SLOTS</div><span class="careerTopSpacer"></span></div>
+  <h2 id="saveSlotHeading">Career</h2>
+  <div id="saveSlotHint" class="sub">Up to three independent careers can be stored on this device.</div>
+  <div id="careerSlots" class="careerSlots"></div>
+  <div id="slotBackupTools" class="slotBackupTools"><div class="careerBackupPanel">
       <div class="careerBackupHead">
         <div>
           <span>CAREER BACKUP</span>
@@ -15410,16 +15432,7 @@ header{
         <input id="importCareersFile" type="file" accept=".json,application/json" hidden>
       </div>
       <div class="careerBackupNote">Your career saves automatically. A backup lets you recover it if browser storage changes.</div>
-    </div>
-    <div id="startStatus" class="startStatus">Checking career slots…</div>
-    <div id="startBuild" class="launchBuild"></div>
-  </div>
-</div>
-<div id="saveSlotStep" class="careerStep hidden">
-  <div class="careerTop"><button id="backToLaunchFromSlots" class="backBtn">‹ BACK</button><div id="saveSlotTitle" class="label">CAREER SLOTS</div><span class="careerTopSpacer"></span></div>
-  <h2 id="saveSlotHeading">Career</h2>
-  <div id="saveSlotHint" class="sub">Up to three independent careers can be stored on this device.</div>
-  <div id="careerSlots" class="careerSlots"></div>
+    </div></div>
 </div>
 <div id="managerStep" class="careerStep hidden">
   <div class="careerTop"><button id="backToSlotsFromManager" class="backBtn">‹ BACK</button><div class="label">NEW CAREER</div><span class="careerTopSpacer"></span></div>
@@ -15689,7 +15702,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.2 QA7.4 · Guidance UX";
+const BUILD_VERSION="Legacy Football v1.0.2 QA7.7 · Save Management UX";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -21592,6 +21605,7 @@ function renderCareerSlots(mode=careerSlotMode){
  $("#saveSlotTitle").textContent=mode==="new"?"NEW CAREER":"LOAD CAREER";
  $("#saveSlotHeading").textContent=mode==="new"?"Career Slot":"Choose a Career";
  $("#saveSlotHint").textContent=mode==="new"?"Choose Career 1, 2 or 3. Existing careers can be replaced after confirmation.":"Select a saved career to resume.";
+ let backupTools=$("#slotBackupTools");if(backupTools)backupTools.classList.toggle("hidden",mode!=="load");
  host.innerHTML=[1,2,3].map(slot=>{let s=careerSlotSummary(slot);if(!s)return '<button class="careerSlot empty" data-career-slot="'+slot+'" data-slot-mode="'+mode+'"><div class="careerSlotTop"><div class="careerSlotIdentity"><span class="careerSlotGlyph emptyGlyph" aria-hidden="true">+</span><div><div class="careerSlotNo">CAREER '+slot+'</div><div class="careerSlotName">Empty Career Slot</div><div class="careerSlotMeta">'+(mode==="new"?"Start a new football legacy here.":"No saved career in this slot.")+'</div></div></div><div class="careerSlotSeason">EMPTY</div></div></button>';return '<button class="careerSlot" data-career-slot="'+slot+'" data-slot-mode="'+mode+'"><div class="careerSlotTop"><div class="careerSlotIdentity"><span class="careerSlotGlyph savedGlyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v7c0 4.2-2.6 6.8-7 8-4.4-1.2-7-3.8-7-8z"/><path d="M8 9h8M12 6.5v8"/></svg></span><div><div class="careerSlotNo">CAREER '+slot+'</div><div class="careerSlotName">'+s.club+'</div><div class="careerSlotMeta">'+(s.nation?nationFlagHtml(s.nation,18)+'<span>'+nationName(s.nation)+' · </span>':'')+s.division+' · Week '+s.week+'</div></div></div><div class="careerSlotSeason">'+s.season+'</div></div><div class="careerSlotFoot"><span>Season '+s.seasons+'</span><span class="careerIntegrity '+(s.integrity&&s.integrity.ok?'ok':'warn')+'">'+(s.integrity?s.integrity.label:"SAVE CHECK")+'</span><span>Last played '+formatSlotDate(s.lastPlayed)+'</span></div></button>'}).join("");
 }
 
