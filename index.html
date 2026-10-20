@@ -10044,6 +10044,13 @@ body::after{
 /* Commercial QA navigation consistency */
 .contextMore button:active .contextMoreIdentity{color:var(--gold);border-color:#806b28;background:rgba(217,181,74,.14)}
 .contextMore button:active .contextMoreCopy b{color:var(--gold)}
+
+/* QA7.4 handbook: compact navigation and practical reference content */
+.qa8TopicWhy{margin-top:7px!important;color:#c5cfdb!important}
+.qa8TopicWhere{margin-top:9px;font-size:11px;color:#d6e0e9;line-height:1.5}
+.qa8TopicWhere span{font-size:9px;letter-spacing:.1em;color:#e4bb4c;font-weight:800;margin-right:7px}
+.qa8Topic{padding-top:15px!important;padding-bottom:15px!important}
+@media(max-width:600px){.qa8TopicWhere{font-size:10px}.qa8HandbookTabs{overflow-x:auto}}
 </style>
 
 <style id="legacy-devtools-overrides">
@@ -15233,7 +15240,58 @@ header{
 <style id="firstWeekQA6Styles">
 .firstWeekWelcomeCard{max-width:610px}.firstWeekWelcomeText{line-height:1.6;margin:16px 0;color:#e9edf1}.firstWeekWelcomeNote{margin:14px 0 22px}.firstWeekSkipButton{margin-top:10px;background:transparent!important;border-color:#304151!important;color:#c5d0da!important}.firstWeekPanel{margin:16px auto 20px;max-width:1100px;padding:18px;border:1px solid #92752b;border-radius:18px;background:#101922;color:#edf1f5;box-sizing:border-box}.firstWeekPanelTop{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.firstWeekPanelTop h2{font-size:21px;margin:5px 0 4px}.firstWeekPanelTop p{font-size:13px;color:#a5b3c0;margin:0 0 12px;line-height:1.5}.firstWeekCount{border:1px solid #344656;border-radius:18px;padding:6px 10px;white-space:nowrap;font-weight:700;color:#e0ba4a}.firstWeekTasks{display:grid;gap:8px}.firstWeekTask{display:flex;align-items:center;gap:12px;text-align:left;width:100%;border:1px solid #2c3d4d;background:#15212d;border-radius:12px;padding:12px;color:#edf1f5;cursor:pointer;min-height:64px}.firstWeekTask:focus-visible,.firstWeekFooter button:focus-visible{outline:2px solid #e0ba4a;outline-offset:2px}.firstWeekTask.done{opacity:.68}.firstWeekCheck{color:#e0ba4a;font-size:24px;min-width:24px}.firstWeekTaskCopy{display:grid;gap:4px;flex:1}.firstWeekTaskCopy b{font-size:14px}.firstWeekTaskCopy small{color:#a5b3c0;font-size:12px;line-height:1.4}.firstWeekChevron{font-size:26px;color:#e0ba4a}.firstWeekFooter{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:14px;color:#a5b3c0;font-size:11px}.firstWeekFooter button{border:0;background:transparent;color:#e0ba4a;font-weight:700;padding:8px;cursor:pointer}@media(max-width:600px){.firstWeekPanel{margin:12px 12px 18px;padding:14px}.firstWeekPanelTop h2{font-size:19px}.firstWeekFooter{align-items:flex-start;flex-wrap:wrap}}
 </style>
-</head>
+<style id="qa7GuidanceStyles">
+.qa7Guide{max-width:1100px;margin:10px auto 16px;padding:13px 15px;border:1px solid #66552c;border-radius:12px;background:#111a23;color:#edf1f5;box-sizing:border-box}.qa7GuideHead{display:flex;align-items:center;justify-content:space-between;gap:10px}.qa7Guide h3{font-size:15px;margin:5px 0 7px;color:#f0f2f5}.qa7Guide p{font-size:12px;line-height:1.55;color:#c3cbd3;margin:0 0 8px}.qa7Guide .qa7Eyebrow{font-size:10px;font-weight:800;letter-spacing:.08em;color:#dcb54a}.qa7Guide button{cursor:pointer;border:1px solid #6f5b2d;border-radius:7px;background:transparent;color:#e2bd5b;padding:7px 10px;font-size:11px;font-weight:700}.qa7GuideActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}.qa7Guide button:focus-visible,.qa7Handbook button:focus-visible{outline:2px solid #e2bd5b;outline-offset:2px}.qa7HelpDock{display:flex;justify-content:flex-end;max-width:1100px;margin:7px auto 0}.qa7HelpDock button{border:1px solid #69562c;background:#131d27;color:#e2bd5b;border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700}.qa7Handbook{position:fixed;inset:0;z-index:7500;background:#000d;display:flex;justify-content:center;align-items:center;padding:12px;box-sizing:border-box}.qa7Handbook.hidden{display:none!important}.qa7HandbookInner{width:min(100%,660px);max-height:calc(100dvh - 24px);overflow:auto;background:#101922;color:#edf1f5;border:1px solid #80682f;border-radius:15px;padding:18px;box-sizing:border-box}.qa7HandbookInner h2{margin:4px 0 12px}.qa7HandbookInner h3{font-size:14px;color:#e2bd5b;margin:18px 0 4px}.qa7HandbookInner p{font-size:12px;line-height:1.6;color:#cbd3dc}.qa7HandbookInner button{background:#192736;border:1px solid #80682f;border-radius:8px;padding:9px 12px;color:#e2bd5b;cursor:pointer}@media(max-width:600px){.qa7Guide{margin:10px 12px 14px}.qa7HelpDock{margin:7px 12px 0}}
+</style>
+<style id="qa71UXStyles">
+/* QA7.1: lighter first-week dashboard and contextual tutorial cards */
+.firstWeekPanel{padding:14px;border-radius:12px;margin:12px auto 16px}
+.firstWeekPanelTop h2{font-size:18px}
+.firstWeekPanelTop p{font-size:12px;margin-bottom:8px}
+.firstWeekTasks{gap:5px}
+.firstWeekTask{min-height:49px;padding:8px 11px;border-radius:8px}
+.firstWeekTaskCopy b{font-size:12px}.firstWeekTaskCopy small{font-size:11px}
+.firstWeekCheck{font-size:19px;min-width:19px}.firstWeekChevron{font-size:20px}
+.firstWeekFooter{margin-top:6px}
+.qa7Guide{width:100%;max-width:100%;margin:12px 0;padding:12px 14px;border-radius:10px}
+.qa7Guide h3{font-size:14px}.qa7Guide p{font-size:12px}
+.qa7HandbookSettings{padding-top:12px;border-top:1px solid #344656}
+@media(max-width:600px){.firstWeekPanel{margin:10px 12px 14px;padding:12px}.qa7Guide{margin:10px 0;padding:11px}}
+</style>
+<style id="qa71GuidePolish">
+/* QA7.2: one compact, contextual guidance strip rather than a second content card */
+.qa7Guide{width:100%;max-width:1100px;margin:8px auto 12px;padding:11px 13px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#111a23;border:1px solid #3a4856;border-left:3px solid #d7ad43;border-radius:9px;box-shadow:none}
+.qa7GuideCopy{min-width:0;flex:1}.qa7Guide .qa7Eyebrow{display:block;font-size:10px;line-height:1.4;letter-spacing:.075em;color:#dcb54a;font-weight:800}.qa7Guide p{margin:3px 0 0;font-size:12px;line-height:1.45;color:#c3cbd3;max-width:70ch}.qa7GuideActions{display:flex;align-items:center;gap:6px;flex-shrink:0;margin:0}.qa7Guide .qa7GuideActions button{min-height:32px;padding:6px 10px;font-size:11px;white-space:nowrap}.qa7Guide .qa7GotIt{background:#d7b34d;color:#111820;border-color:#d7b34d}.qa7Guide .qa7ReadMore{border-color:#4d5b68;color:#d9e0e8}.qa7Guide .qa7Close{border:0;background:transparent;color:#9eacb9;font-size:19px;padding:4px 7px;min-width:30px}
+@media(max-width:650px){.qa7Guide{align-items:flex-start;flex-wrap:wrap;gap:8px;padding:11px 12px}.qa7GuideCopy{flex-basis:100%}.qa7GuideActions{width:100%;justify-content:flex-end}.qa7Guide p{font-size:12px}.qa7Guide .qa7GuideActions button{min-height:34px}}
+</style>
+<style id="qa8HandbookModern">
+.qa7Handbook{padding:clamp(10px,3vw,30px);backdrop-filter:blur(6px);background:rgba(0,0,0,.78)}
+.qa7HandbookInner{width:min(100%,760px);max-height:min(88dvh,860px);display:flex;flex-direction:column;overflow:hidden;padding:0;background:#101922;border:1px solid #5c5034;border-radius:16px;box-shadow:0 24px 85px #000b}
+.qa8HandbookHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:25px 27px 17px;border-bottom:1px solid #293641}
+.qa8Kicker{color:#d8b44e;font-size:10px;letter-spacing:.14em;font-weight:800}
+.qa8HandbookHeader h2{font-size:25px;letter-spacing:-.025em;margin:7px 0 4px;line-height:1.2}
+.qa8HandbookHeader p{margin:0;color:#aebbc7;font-size:12px}
+.qa7HandbookInner .qa8Close{font-size:23px;line-height:1;min-width:37px;height:37px;padding:0;background:#192532;border-color:#354555;color:#e7ebef}
+.qa8HandbookToolbar{padding:16px 27px 10px}.qa8SearchLabel{display:block;font-size:11px;font-weight:700;color:#aebbc7;margin-bottom:7px}
+.qa8HandbookToolbar input{width:100%;height:42px;border:1px solid #384957;background:#0b141c;border-radius:9px;color:#f3f5f7;padding:0 13px;font:inherit;font-size:13px;outline:none}
+.qa8HandbookToolbar input:focus{border-color:#d9b54e;box-shadow:0 0 0 2px #d9b54e22}
+.qa8HandbookTabs{display:flex;gap:7px;padding:6px 27px 15px;overflow-x:auto;scrollbar-width:thin;flex-shrink:0}
+.qa7HandbookInner .qa8HandbookTabs button{flex:0 0 auto;padding:9px 12px;border-radius:8px;background:#17222d;border-color:#35434d;color:#b9c4cf;font-size:12px;font-weight:700;white-space:nowrap}
+.qa7HandbookInner .qa8HandbookTabs button.active{background:#dcb74f;border-color:#dcb74f;color:#10151b}
+.qa8HandbookContent{padding:0 27px 16px;overflow:auto;min-height:125px;flex:1;overscroll-behavior:contain}
+.qa8TopicSummary{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-top:1px solid #2a3945;color:#e9edf0;font-size:13px}
+.qa8TopicSummary span{color:#8798a6;font-size:11px}
+.qa8Topic{display:flex;gap:14px;padding:17px 0;border-top:1px solid #243440}
+.qa8TopicNumber{color:#d9b64e;font-weight:800;font-size:11px;line-height:21px}
+.qa7HandbookInner .qa8Topic h3{margin:0 0 5px;color:#e7edf2;font-size:15px}
+.qa7HandbookInner .qa8Topic p{margin:0;color:#b9c6d0;font-size:12px;line-height:1.65}
+.qa8Empty{padding:20px 0}
+.qa8HandbookFooter{border-top:1px solid #2b3b46;padding:15px 27px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:#121e28}
+.qa8HandbookFooter>div{display:flex;flex-direction:column;gap:4px}.qa8HandbookFooter strong{font-size:12px;color:#f0f2f5}.qa8HandbookFooter span{font-size:11px;color:#aebbc7}
+.qa7HandbookInner .qa8Toggle{white-space:nowrap;font-size:12px;font-weight:700;background:#dcb74f;color:#10151b;border-color:#dcb74f}
+.qa7HandbookInner .qa8Toggle.isOff{background:#192735;color:#e0bd61;border-color:#80682f}
+@media(max-width:600px){.qa7Handbook{padding:8px}.qa7HandbookInner{max-height:calc(100dvh - 16px);border-radius:12px}.qa8HandbookHeader{padding:19px 17px 14px}.qa8HandbookHeader h2{font-size:21px}.qa8HandbookToolbar{padding:13px 17px 9px}.qa8HandbookTabs{padding:5px 17px 13px}.qa8HandbookContent{padding:0 17px 12px}.qa8HandbookFooter{padding:13px 17px}.qa8HandbookFooter span{max-width:210px;line-height:1.4}}
+</style></head>
 <body>
 <section id="start" class="start">
 <div id="launchStep" class="careerStep">
@@ -15322,6 +15380,7 @@ header{
 <div class="navAction" data-page="international" role="button" tabindex="0"><b class="navIcon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M4 12h16M12 4c3 3 3 13 0 16M12 4c-3 3-3 13 0 16"/></svg></b><span>INTERNATIONAL</span></div>
 </nav>
 <div id="firstWeekMount"></div>
+<div id="qa7Handbook" class="qa7Handbook hidden" role="dialog" aria-modal="true" aria-label="Manager Handbook"><div class="qa7HandbookInner"><header class="qa8HandbookHeader"><div><span class="qa8Kicker">LEGACY FOOTBALL · HELP CENTRE</span><h2>Manager Handbook</h2><p>Find guidance for every stage of your career.</p></div><button type="button" class="qa8Close" data-qa7-handbook-close="1" aria-label="Close handbook">×</button></header><nav id="qa8HandbookTabs" class="qa8HandbookTabs" aria-label="Handbook categories"></nav><div id="qa7HandbookContent" class="qa8HandbookContent"></div><footer id="qa8HandbookFooter" class="qa8HandbookFooter"></footer></div></div>
 <main id="app"></main>
 <nav id="contextNav" class="contextNav" aria-label="Section navigation"></nav>
 <div id="contextMore" class="contextMore hidden" aria-label="More navigation options"></div>
@@ -15539,7 +15598,7 @@ header{
 (function(){
 "use strict";
 // v2.9.12.1: Rich Career Records plus clean fixture-rank treatment.
-const BUILD_VERSION="Legacy Football v1.0.2 QA6 · First Week Guidance";
+const BUILD_VERSION="Legacy Football v1.0.2 QA7.4 · Guidance UX";
  const RELEASE_CANDIDATE_VERSION="1.0.0";
 const RELEASE_STAGE="PRODUCTION";
 const GAMEPLAY_ENGINE_VERSION="1.0.0";
@@ -30307,7 +30366,8 @@ function showHomeContextMore(){
  let opening=m.classList.contains("hidden");
  let rows=[
   ['about','About Legacy Football','about','Game information and current version'],
-  ['guide','Game Guide','guide','How to play and manage your career']
+  ['guide','Game Guide','guide','How to play and manage your career'],
+  ['handbook','Manager Handbook','guide','Management topics and tutorial settings']
  ];
  let selected=(window.homeContextKey==="about")?"about":(window.homeMoreSelection||"");
  m.innerHTML=rows.map(x=>
@@ -30376,6 +30436,7 @@ function render(){
   if(typeof viewFn!=="function")throw new Error("Unknown page: "+page);
   $("#app").innerHTML=viewFn();
   updateFirstWeekMount();
+  qa7Render();
   $("#continueDock").classList.add("hidden");
   document.querySelectorAll("#nav [data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===(page==="club"?"home":page)));
   renderContextNav();
@@ -30508,6 +30569,7 @@ document.addEventListener("click",function(e){
    hideContextMore();
    if(page==="home"){
      if(key==="guide"){window.homeMoreSelection="guide";showGameGuide(false);return}
+     if(key==="handbook"){window.homeMoreSelection="handbook";qa7HandbookOpen();return}
      if(key==="about"){window.homeMoreSelection="about";window.homeContextKey="about";renderSoon();requestAnimationFrame(()=>requestAnimationFrame(resetHomeWorkspaceScroll));return}
    }
    leagueTab=key||"records";renderSoon();return;
@@ -30638,6 +30700,128 @@ function showCareerConfirmation(){
  begin.scrollIntoView&&begin.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 
+
+// QA7: presentation-only, career-scoped guidance. No simulation values are changed.
+const QA7_GUIDES={
+ squad:{title:"Player Fit",body:"Ability is only part of squad selection. Check Player Fit alongside a player's role and attributes before making changes."},
+ club:{title:"Your Club",body:"Review the club's finances, facilities and departments. Department upgrades are long-term decisions, so check their costs before committing."},
+ market:{title:"Recruitment",body:"Compare a target's ability, fit and contract terms. A stronger player isn't always the best choice for your squad."},
+ league:{title:"League Football",body:"Your league position reflects results across the season. Use this screen to follow the table, fixtures and upcoming opponents."},
+ international:{title:"International Football",body:"Club competitions and national-team management offer different challenges. National-team opportunities may arise later in your career."},
+ home:{title:"Coaching Staff",body:"Your coach shapes the team's approach. Review the coaching options before deciding whether to keep, hire or replace staff."}
+};
+const QA7_EVENTS={
+ cup:{title:"National Cup",body:"Your cup fixture is approaching. Cup ties are separate from the league campaign. Review the opponent and competition before playing."},
+ internationalCup:{title:"International Club Cup",body:"An international club fixture is approaching. Check the competition and your opponent before the match."},
+ nationalJob:{title:"National-Team Opportunity",body:"You have a national-team decision to make. Review the offer and responsibilities before accepting."}
+};
+function qa7State(){
+ if(!G)return null;
+ if(!G.guidanceQA7||typeof G.guidanceQA7!=="object")G.guidanceQA7={seen:{},disabled:!!(G.firstWeekOnboarding&&G.firstWeekOnboarding.dismissed&&!G.firstWeekOnboarding.active)};
+ if(!G.guidanceQA7.seen)G.guidanceQA7.seen={};
+ return G.guidanceQA7;
+}
+function qa7Esc(t){return String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function qa7Render(){
+ const app=document.querySelector('#app'),st=qa7State();if(!app||!st)return;
+ app.querySelectorAll('.qa7HelpDock,.qa7Guide').forEach(el=>el.remove());
+ if(st.disabled)return;
+ // Tips belong to the management screen or tab that explains them.
+ // Home only hosts timely career events, never coaching or general management tips.
+ let key=null,entry=null;
+ if(page==='squad'){key='squad';entry=QA7_GUIDES.squad;}
+ else if(page==='market'){key='market';entry=QA7_GUIDES.market;}
+ else if(page==='league'){key='league';entry=QA7_GUIDES.league;}
+ else if(page==='international'){key='international';entry=QA7_GUIDES.international;}
+ else if(page==='club'&&clubTab==='staff'){key='club:staff';entry={title:'Coaching Staff',body:QA7_GUIDES.home.body};}
+ else if(page==='club'&&clubTab==='facilities'){key='club:facilities';entry={title:'Club Departments',body:QA7_GUIDES.club.body};}
+ else if(page==='club'&&clubTab==='overview'){key='club';entry=QA7_GUIDES.club;}
+ else if(page==='home'){
+  if(typeof cupUserFixtureDue==='function'&&cupUserFixtureDue()&&!st.seen['event:cup']){key='event:cup';entry=QA7_EVENTS.cup;}
+  else if(typeof internationalUserFixtureDue==='function'&&internationalUserFixtureDue()&&!st.seen['event:internationalCup']){key='event:internationalCup';entry=QA7_EVENTS.internationalCup;}
+  else if(G.nationalGM&&G.nationalGM.pendingOffer&&!st.seen['event:nationalJob']){key='event:nationalJob';entry=QA7_EVENTS.nationalJob;}
+ }
+ if(!entry||st.seen[key])return;
+ const panel=document.createElement('section');panel.className='qa7Guide';panel.setAttribute('aria-label','Manager guidance');
+ panel.innerHTML='<div class="qa7GuideCopy"><span class="qa7Eyebrow">QUICK GUIDE <span aria-hidden="true">·</span> '+qa7Esc(entry.title)+'</span><p>'+qa7Esc(entry.body)+'</p></div><div class="qa7GuideActions"><button type="button" class="qa7ReadMore" data-qa7-handbook="1">Read more</button><button type="button" class="qa7GotIt" data-qa7-close="'+qa7Esc(key)+'">Got it</button><button type="button" class="qa7Close" data-qa7-close="'+qa7Esc(key)+'" aria-label="Dismiss guidance" title="Dismiss guidance">×</button></div>';
+ // Inside the current screen, after its first heading where possible.
+ const heading=app.querySelector('h1, .screenTitle, .pageTitle, h2');
+ if(heading){const block=heading.closest('.screenHero, .pageHero, .screenHeader, .pageHeader');if(block&&block.parentElement===app)block.after(panel);else heading.after(panel);}
+ else app.prepend(panel);
+}
+const QA8_HANDBOOK_CATEGORIES=[
+ {id:'start',label:'Getting started'},
+ {id:'squad',label:'Squad'},
+ {id:'club',label:'Club'},
+ {id:'competitions',label:'Competitions'},
+ {id:'career',label:'Career'}
+];
+// Handbook copy describes existing screens and actions; it does not change simulation rules.
+const QA8_HANDBOOK_CONTENT={
+ start:[
+  {title:'Your first week',what:'Start by reviewing the squad, club, market and league. The optional first-week checklist tracks which areas you have visited.',why:'You can make informed decisions before advancing to the next fixture.',where:'Home → Your first priorities'},
+  {title:'Moving through the season',what:'The Home screen shows your next fixture and the Continue control for progressing your career.',why:'Review your squad and upcoming opponent before moving forward.',where:'Home → Next Fixture'},
+  {title:'Saving your career',what:'Career progress is saved in the game. Use the career menu to return to your saved game.',why:'Keep a separate backup or export where available, especially before changing devices or browsers.',where:'Main menu / career controls'}
+ ],
+ squad:[
+  {title:'Player Fit',what:'Player Fit describes suitability for a role. The Starting XI also displays each player’s position and fit rating.',why:'A higher overall rating does not always mean a better fit for a particular position.',where:'Squad → Team → Starting XI'},
+  {title:'Starting XI',what:'Your coach selects a starting side in the current formation. Check the XI Ready indicator and each position before a match.',why:'Formation, player availability and positional suitability all matter when reviewing the lineup.',where:'Squad → Team'},
+  {title:'Coach and football identity',what:'Your coach has an approach and preferred formation. The squad view shows the current shape and the coach in charge.',why:'Compare the shape of the team with the players available before changing staff or recruiting.',where:'Squad → Team; Club → Staff'},
+  {title:'Development',what:'The squad area includes a dedicated development view.',why:'Review your players over time rather than judging them only on their current starting position.',where:'Squad → Develop'}
+ ],
+ club:[
+  {title:'Coaching staff',what:'Review your current coach and available appointments. You can replace your coach through the staff management controls.',why:'Changing the coach can change the team’s approach; check the available options before making a decision.',where:'Club → Staff'},
+  {title:'Facilities and departments',what:'Your club has facilities and departments that can be developed through upgrades.',why:'Upgrades are a commitment of club resources. Check their listed cost and benefit before proceeding.',where:'Club → Facilities'},
+  {title:'Finances',what:'The finances view provides the club’s financial position and relevant commitments.',why:'Check affordability before recruiting, changing staff or investing in facilities.',where:'Club → Finances'},
+  {title:'Club overview',what:'The overview brings together information about the club and its direction.',why:'Use it to understand the resources and expectations you are managing.',where:'Club → Overview'}
+ ],
+ competitions:[
+  {title:'Premier Division',what:'League fixtures and standings track your domestic season.',why:'League results determine your position across the campaign.',where:'League → Table and Fixtures'},
+  {title:'National Cup',what:'National cup ties run separately from league fixtures and appear in your schedule.',why:'Cup matches provide another competition to manage alongside the league.',where:'Home → Upcoming Fixtures; Squad → Fixtures'},
+  {title:'International club football',what:'International club fixtures may appear as your club participates in wider competitions.',why:'Check the competition and opponent when a new fixture appears.',where:'International; Home → Upcoming Fixtures'},
+  {title:'Match preparation',what:'The next fixture card identifies your opponent and match context before you continue.',why:'Use the time before each fixture to review the lineup and squad.',where:'Home → Next Fixture'}
+ ],
+ career:[
+  {title:'Recruitment',what:'The Market screen lets you review potential signings and their contract details.',why:'Compare player ability, fit and financial commitments before making an offer.',where:'Market'},
+  {title:'National-team opportunities',what:'As your reputation develops, a national team may approach you. Offers require a decision when presented.',why:'International management adds national squad and fixture responsibilities alongside your club role.',where:'GM Profile; International'},
+  {title:'Managing a national squad',what:'When appointed, you can review the national squad and confirm your selection for international duty.',why:'Check positional balance and readiness before confirming the squad.',where:'International → National Team'},
+  {title:'Your career record',what:'The GM Profile records your managerial history, opportunities and achievements.',why:'Follow your progress across seasons and appointments.',where:'GM Profile'}
+ ]
+};
+let qa8HandbookCategory='start';
+function qa8HandbookRender(){
+ const content=document.getElementById('qa7HandbookContent');
+ const tabs=document.getElementById('qa8HandbookTabs');
+ const footer=document.getElementById('qa8HandbookFooter');
+ if(!content||!tabs||!footer)return;
+ tabs.innerHTML=QA8_HANDBOOK_CATEGORIES.map(c=>'<button type="button" data-qa8-category="'+c.id+'" class="'+(qa8HandbookCategory===c.id?'active':'')+'" aria-pressed="'+(qa8HandbookCategory===c.id?'true':'false')+'">'+c.label+'</button>').join('');
+ const category=QA8_HANDBOOK_CATEGORIES.find(c=>c.id===qa8HandbookCategory)||QA8_HANDBOOK_CATEGORIES[0];
+ const topics=QA8_HANDBOOK_CONTENT[category.id]||[];
+ content.innerHTML='<div class="qa8TopicSummary"><strong>'+category.label+'</strong><span>'+topics.length+' topics</span></div>'+topics.map((t,i)=>'<article class="qa8Topic"><span class="qa8TopicNumber">'+String(i+1).padStart(2,'0')+'</span><div><h3>'+qa7Esc(t.title)+'</h3><p>'+qa7Esc(t.what)+'</p><p class="qa8TopicWhy">'+qa7Esc(t.why)+'</p><div class="qa8TopicWhere"><span>FIND IT</span> '+qa7Esc(t.where)+'</div></div></article>').join('');
+ footer.innerHTML='<div><strong>Automatic guidance</strong><span>Show short tips as you explore the game.</span></div><button type="button" class="qa8Toggle '+(qa7State()?.disabled?'isOff':'')+'" data-qa7-toggle="1" aria-pressed="'+(!qa7State()?.disabled)+'">'+(qa7State()?.disabled?'Off · Enable':'On · Disable')+'</button>';
+}
+function qa7HandbookOpen(){
+ const modal=document.getElementById('qa7Handbook');if(!modal)return;
+ qa8HandbookRender();modal.classList.remove('hidden');
+}
+document.addEventListener('click',function(e){
+ const b=e.target.closest&&e.target.closest('[data-qa8-category]');if(!b)return;
+ qa8HandbookCategory=b.getAttribute('data-qa8-category');
+ qa8HandbookRender();
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!document.getElementById('qa7Handbook')?.classList.contains('hidden'))qa7HandbookClose();});
+function qa7HandbookClose(){let m=document.getElementById('qa7Handbook');if(m)m.classList.add('hidden');}
+document.addEventListener('click',function(e){
+ const el=e.target.closest&&e.target.closest('[data-qa7-close],[data-qa7-handbook],[data-qa7-disable],[data-qa7-toggle],[data-qa7-handbook-close]');if(!el)return;
+ if(el.hasAttribute('data-qa7-handbook-close')){qa7HandbookClose();return;}
+ if(el.hasAttribute('data-qa7-handbook')){qa7HandbookOpen();return;}
+ const st=qa7State();if(!st)return;
+ if(el.hasAttribute('data-qa7-close'))st.seen[el.getAttribute('data-qa7-close')]=true;
+ if(el.hasAttribute('data-qa7-disable'))st.disabled=true;
+ if(el.hasAttribute('data-qa7-toggle')){st.disabled=!st.disabled;qa7HandbookOpen();}
+ try{save()}catch(err){}qa7Render();
+});
+
 const FIRST_WEEK_TASKS=[
  {id:"squad",title:"Review your squad",detail:"Assess your players, positions and squad depth.",page:"squad",tip:"Check your squad's strengths and weaknesses before making changes."},
  {id:"club",title:"Assess your club",detail:"Explore club resources, facilities and expectations.",page:"club",tip:"Your club's resources and long-term direction matter as much as results."},
@@ -30672,6 +30856,7 @@ function finishFirstDayWelcome(startGuide){
  G.firstDayWelcomeSeen=true;
  G.gameGuideSeen=true;
  G.firstWeekOnboarding={active:!!startGuide,dismissed:!startGuide,completed:{}};
+ G.guidanceQA7={seen:{},disabled:!startGuide};
  try{save()}catch(e){}
  if(startGuide){window.homeContextKey="overview";navigateTo("home");}
 }
